@@ -1,0 +1,22 @@
+{
+  "name": "r_animate",
+  "version": "1.0.0",
+  "description": "a easy tool to help you make great animation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r1ader/r_animate.git"
+  },
+  "keywords": [
+    "animation"
+  ],
+  "author": "r1ader",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r1ader/r_animate/issues"
+  },
+  "homepage": "https://github.com/r1ader/r_animate#readme"
+}
