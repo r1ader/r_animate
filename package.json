@@ -1,6 +1,6 @@
 {
   "name": "r_animate",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "a easy tool to help you make great animation",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/r1ader/r_animate/issues"
   },
-  "homepage": "https://github.com/r1ader/r_animate#readme"
+  "homepage": "https://github.com/r1ader/r_animate#readme",
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "uuid": "^8.3.2"
+  }
 }
