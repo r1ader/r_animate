@@ -1,4 +1,4 @@
-<h1 align="center">r_animate.js</h1>
+<h1 align="center" style="font-size:60px;font-weight:bolder">r_animate.js</h1>
 
 <h4 align="center">
 
