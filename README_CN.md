@@ -23,21 +23,89 @@ npm install --save r_animate
 
 ## 语法
 
-#### 范例1：渐入渐出 
+#### 范例1：渐入渐出
 
 点此查看 [全部代码](https://stackblitz.com/edit/vue-ufvvux)
 
 ```javascript
-  ...
-  this.$refs.circle
-      .r_animate({
+  //...
+this.$refs.circle
+    .r_animate({
         opacity: '[1~0]',
         duration: 2000,
-      })
-      .r_animate({
+    })
+    .r_animate({
         opacity: '[0~1]',
         duration: 2000,
-      });
-  ...
+    });
+//...
 ```
+
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
+
+---
+
+#### 范例2：缩放
+
+点此查看 [全部代码](https://stackblitz.com/edit/vue-zpshvy)
+
+```javascript
+  //...
+this.$refs.circle
+    .r_animate({
+        transform: 'scale([1~2])',
+        duration: 2000,
+    })
+    .r_animate({
+        transform: 'scale([2~1])',
+        duration: 2000,
+    });
+//...
+```
+
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
+
+---
+
+#### 范例2：掉落模拟
+
+点此查看 [全部代码](https://stackblitz.com/edit/vue-fdkv5z)
+
+```javascript
+//...
+this.$refs.shadow
+    .r_animate({
+        opacity: 0,
+        transform: ' translateY(-50px) scale(0.1) scaleY([1~0.1])',
+        duration: 16,
+    })
+    .r_animate({
+        opacity: '[0~1]',
+        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
+        duration: 500,
+        interpolation: 'easeInQuad'
+    })
+    .r_animate({
+        opacity: '[0~1]',
+        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
+        duration: 300,
+        interpolation: 'easeOutQuad',
+        reverse: true
+    })
+// ...
+
+this.$refs.circle
+    .r_animate({
+        transform: 'translateY([-200~0]px)',
+        duration: 500,
+        interpolation: 'easeInQuad'
+    })
+    .r_animate({
+        transform: 'translateY([0~-100]px)',
+        duration: 300,
+        interpolation: 'easeOutQuad',
+    })
+// ...
+```
+
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
