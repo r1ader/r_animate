@@ -21,34 +21,23 @@
 npm install --save r_animate 
 ```
 
-## 基于 `vue` 的简单的范例
+## 语法
 
-```vue
+#### 范例1：渐入渐出 
 
-<template>
-  <div>
-    <div ref="visible_div">
-      我要隐身了
-    </div>
-  </div>
-</template>
+点此查看 [全部代码](https://stackblitz.com/edit/vue-ufvvux)
 
-<script>
-import R_director from "r_animate";
-
-export default {
-  // ...
-  mounted() {
-    const r_director = new R_director() // 实例化一个导演类
-    r_director.take(this) // 导演需要接管现场，$refs 中的 element 才能开始动画
-
-    const { visible_div } = this.$refs
-    visible_div.r_animate({
-      opacity: '[1~0]'
-    })
-  }
-}
-</script>
+```javascript
+  ...
+  this.$refs.circle
+      .r_animate({
+        opacity: '[1~0]',
+        duration: 2000,
+      })
+      .r_animate({
+        opacity: '[0~1]',
+        duration: 2000,
+      });
+  ...
 ```
-
-刷新页面，可以看到 `我要隐身了` 的渐出动画。
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
