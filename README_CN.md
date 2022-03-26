@@ -1,11 +1,25 @@
-# r_animate.js
+<h1 align="center">r_animate.js</h1>
 
-一个能帮您更方便地在 `vue` 项目中制作 `css` 动画的简单工具
 
-[English](https://github.com/r1ader/r_animate/blob/main/README.md) | 中文
+<h4 align="center">
 
 [![Downloads][npm-downloads-src]][npm-downloads-href]
 [![Version][npm-version-src]][npm-version-href]
+
+</h4>
+
+<h3 align="center">以函数式编程的方式制作动画</h3>
+
+---
+
+[English](https://github.com/r1ader/r_animate/blob/main/README.md) | 中文
+
+
+请悉知:
+
+`r_animate.js` 项目正在起步阶段 ，目前暂只支持 `vue` 。
+
+更多的支持正在开发中。
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/r_animate.svg?style=flat&color=darkgreen
 
@@ -16,7 +30,7 @@
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
 ---
-点击看看如何实现👇
+### 点击看看如何实现👇
 
 <a href="#范例3掉落模拟"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
 

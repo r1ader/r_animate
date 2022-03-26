@@ -1,10 +1,25 @@
-# r_animate
-an easy tool to make css animation
+<h1 align="center">r_animate.js</h1>
 
-English | [中文](https://github.com/r1ader/r_animate/blob/main/README_CN.md)
+<h4 align="center">
 
 [![Downloads][npm-downloads-src]][npm-downloads-href]
 [![Version][npm-version-src]][npm-version-href]
+
+</h4>
+
+<h3 align="center">produce animation with functional programming</h3>
+
+---
+
+English | [中文](https://github.com/r1ader/r_animate/blob/main/README_CN.md)
+
+Notice: 
+
+`r_animate.js` is in its infancy.
+
+`r_animate.js` is only performance well on `vue` right-now. 
+        
+More supporting are on process now.
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/r_animate.svg?style=flat&color=darkgreen
 [npm-downloads-href]: https://www.npmjs.com/package/r_animate
@@ -13,7 +28,7 @@ English | [中文](https://github.com/r1ader/r_animate/blob/main/README_CN.md)
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
 ---
-Click to see the implement👇
+### Click to see the implement👇
 
 <a href="#Example3Dropsimulation"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
 
