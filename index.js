@@ -267,13 +267,18 @@ class R_registered_dom {
     }
 }
 
-class R_director {
+class R_director extends R_registered_dom {
     constructor() {
+        super(
+            uuidv4().replace(/-/g, ""),
+            document.createElement('div')
+        );
         this.id = uuidv4().replace(/-/g, "")
 
         this.registered_dict = {}
 
         this.registered_queue = []
+
     }
 
     register(args) {
