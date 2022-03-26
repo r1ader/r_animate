@@ -45,9 +45,9 @@ npm install --save r_animate
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
 
-You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-ufvvux) in `Playground`
+You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-ufvvux) in `Playground`
 
-or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue) in `Github` 
+or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue) in `Github` 
 
 ```javascript
 // App.vue
@@ -71,9 +71,9 @@ this.$refs.circle
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
 
-You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-zpshvy) in `Playground`
+You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-zpshvy) in `Playground`
 
-or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue) in `Github`
+or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue) in `Github`
 
 ```javascript
 // App.vue
@@ -97,45 +97,6 @@ this.$refs.circle
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
 
-You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-fdkv5z) in `Playground`
+You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-fdkv5z) in `Playground`
 
-or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue) in `Github`
-
-```javascript
-// App.vue
-// ...
-// key code
-this.$refs.shadow
-    .r_animate({
-        opacity: 0,
-        transform: ' translateY(-50px) scale(0.1) scaleY([1~0.1])',
-        duration: 16,
-    })
-    .r_animate({
-        opacity: '[0~1]',
-        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
-        duration: 500,
-        interpolation: 'easeInQuad'
-    })
-    .r_animate({
-        opacity: '[0~1]',
-        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
-        duration: 300,
-        interpolation: 'easeOutQuad',
-        reverse: true
-    })
-// ...
-
-this.$refs.circle
-    .r_animate({
-        transform: 'translateY([-200~0]px)',
-        duration: 500,
-        interpolation: 'easeInQuad'
-    })
-    .r_animate({
-        transform: 'translateY([0~-100]px)',
-        duration: 300,
-        interpolation: 'easeOutQuad',
-    })
-// ...
-```
+or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue) in `Github`
