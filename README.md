@@ -12,43 +12,115 @@ English | [中文](https://github.com/r1ader/r_animate/blob/main/README_CN.md)
 [npm-version-src]: https://img.shields.io/npm/v/r_animate/latest.svg?style=flat&color=darkorange&label=version
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
+---
+Click to see the implement👇
+
+<a href="#Example3Dropsimulation"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
+
+
 ## Installation
 
 ```bash
 npm install --save r_animate 
 ```
 
-## a sample tutorial base on `vue` 
+## Example
 
-```vue
+#### Example1：Fade in and out
 
-<template>
-  <div>
-    <div ref="visible_div">
-      I'm gonna be invisible
-    </div>
-  </div>
-</template>
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
 
-<script>
-import R_director from "r_animate";
+You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-ufvvux) in `Playground`
 
-export default {
-  // ...
-  mounted() {
-    // the next two code is necessary in a vue instance
-    // just image that a director should take the studio in control
-    // so that everything will be going on smoothly
-    const r_director = new R_director()
-    r_director.take(this)
+or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue) in `Github` 
 
-    const { visible_div } = this.$refs
-    visible_div.r_animate({
-      opacity: '[1~0]'
+```javascript
+// App.vue
+// ...
+// key code
+this.$refs.circle
+    .r_animate({
+        opacity: '[1~0]',
+        duration: 2000,
     })
-  }
-}
-</script>
+    .r_animate({
+        opacity: '[0~1]',
+        duration: 2000,
+    });
+// ...
 ```
 
-run the code above ，you can see the animation of `I'm gonna be invisible`
+---
+
+#### Example2：Zoom
+
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
+
+You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-zpshvy) in `Playground`
+
+or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue) in `Github`
+
+```javascript
+// App.vue
+// ...
+// key code
+this.$refs.circle
+    .r_animate({
+        transform: 'scale([1~2])',
+        duration: 2000,
+    })
+    .r_animate({
+        transform: 'scale([2~1])',
+        duration: 2000,
+    });
+//...
+```
+
+---
+
+#### Example3：Drop simulation
+
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
+
+You can check and run [the whole App.vue](https://stackblitz.com/edit/vue-fdkv5z) in `Playground`
+
+or , check [the whole App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue) in `Github`
+
+```javascript
+// App.vue
+// ...
+// key code
+this.$refs.shadow
+    .r_animate({
+        opacity: 0,
+        transform: ' translateY(-50px) scale(0.1) scaleY([1~0.1])',
+        duration: 16,
+    })
+    .r_animate({
+        opacity: '[0~1]',
+        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
+        duration: 500,
+        interpolation: 'easeInQuad'
+    })
+    .r_animate({
+        opacity: '[0~1]',
+        transform: 'translateY(-50px) scale([0.1~1]) scaleY(0.1)',
+        duration: 300,
+        interpolation: 'easeOutQuad',
+        reverse: true
+    })
+// ...
+
+this.$refs.circle
+    .r_animate({
+        transform: 'translateY([-200~0]px)',
+        duration: 500,
+        interpolation: 'easeInQuad'
+    })
+    .r_animate({
+        transform: 'translateY([0~-100]px)',
+        duration: 300,
+        interpolation: 'easeOutQuad',
+    })
+// ...
+```

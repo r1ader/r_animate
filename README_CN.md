@@ -1,6 +1,6 @@
 # r_animate.js
 
-一个能帮您更方便地在 `vue` 项目中制作 `css` 动画的简单工具，以及，不止 `css` 动画
+一个能帮您更方便地在 `vue` 项目中制作 `css` 动画的简单工具
 
 [English](https://github.com/r1ader/r_animate/blob/main/README.md) | 中文
 
@@ -33,11 +33,11 @@ npm install --save r_animate
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
 
-您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-ufvvux)
+您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-ufvvux)
 
 或者（ 由于网络原因无法访问 Playground ）
 
-也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue)
+也可以在 `Github` 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue)
 
 ```javascript
 //...
@@ -60,11 +60,11 @@ this.$refs.circle
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
 
-您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-zpshvy)
+您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-zpshvy)
 
 或者（ 由于网络原因无法访问 Playground ）
 
-也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue)
+也可以在 `Github` 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue)
 
 ```javascript
 //...
@@ -87,11 +87,11 @@ this.$refs.circle
 
 <img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
 
-您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-fdkv5z)
+您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-fdkv5z)
 
 或者（ 由于网络原因无法访问 Playground ）
 
-也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue)
+也可以在 `Github` 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue)
 
 ```javascript
 //...
