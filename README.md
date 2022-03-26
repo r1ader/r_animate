@@ -30,7 +30,7 @@ More supporting are on process now.
 ---
 ### Click to see the implement👇
 
-<a href="#Example3Dropsimulation"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
+<a href="#example3drop-simulation"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
 
 
 ## Installation
