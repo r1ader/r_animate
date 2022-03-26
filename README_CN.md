@@ -1,4 +1,4 @@
-# r_animate
+# r_animate.js
 
 一个能帮您更方便地在 `vue` 项目中制作 `css` 动画的简单工具，以及，不止 `css` 动画
 
@@ -15,20 +15,33 @@
 
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
+---
+点击看看如何实现👇
+
+<a href="#范例3掉落模拟"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
+
+
 ## 安装
 
 ```bash
 npm install --save r_animate 
 ```
 
-## 语法
+## 范例
 
 #### 范例1：渐入渐出
 
-点此查看 [全部代码](https://stackblitz.com/edit/vue-ufvvux)
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
+
+您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-ufvvux)
+
+或者（ 由于网络原因无法访问 Playground ）
+
+也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue)
 
 ```javascript
-  //...
+//...
+// 关键代码
 this.$refs.circle
     .r_animate({
         opacity: '[1~0]',
@@ -41,16 +54,21 @@ this.$refs.circle
 //...
 ```
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
-
 ---
 
 #### 范例2：缩放
 
-点此查看 [全部代码](https://stackblitz.com/edit/vue-zpshvy)
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
+
+您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-zpshvy)
+
+或者（ 由于网络原因无法访问 Playground ）
+
+也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_2.vue)
 
 ```javascript
-  //...
+//...
+// 关键代码
 this.$refs.circle
     .r_animate({
         transform: 'scale([1~2])',
@@ -63,16 +81,21 @@ this.$refs.circle
 //...
 ```
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
-
 ---
 
-#### 范例2：掉落模拟
+#### 范例3：掉落模拟
 
-点此查看 [全部代码](https://stackblitz.com/edit/vue-fdkv5z)
+<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
+
+您可以在 Playground 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-fdkv5z)
+
+或者（ 由于网络原因无法访问 Playground ）
+
+也可以在 Github 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_3.vue)
 
 ```javascript
 //...
+// 关键代码
 this.$refs.shadow
     .r_animate({
         opacity: 0,
@@ -107,5 +130,3 @@ this.$refs.circle
     })
 // ...
 ```
-
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
