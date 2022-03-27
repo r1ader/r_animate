@@ -4,7 +4,7 @@ const true_array = [
     // only css
     '90px', '20px', '10', '0', '1', '123.2345', '6524',
     // transform
-    'scale(1)','scale(1,3)', 'scale(1.21)', 'scaleX(1)', 'scaleY(1.12)', 'scale(9)',
+    'scale(1)','scale(1,3)', 'scale(1.21)', 'scaleX(1)', 'scaleY(1.12)', 'scale(9)', 'scale([1~1.5])',
     'translate(-10px,10px)', 'rotate(0)',
     'translate([300~-80]px, [300~-30]px) rotateZ(20deg)',
     'translate(-20px,100px) scale(0.7) perspective(500px) rotateY(-40deg) rotateX(20deg) rotateZ(-50deg)',

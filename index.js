@@ -67,6 +67,7 @@ const class_prop = [
     'delay',
     'interpolation',
     'parallel',
+    'loop'
 ]
 
 class R_animate_config {
@@ -80,9 +81,10 @@ class R_animate_config {
                 .filter(o => config_props_list.indexOf(o) === -1)
                 .map(o => `${ o } : ${ config[o] }`)
                 .join('\n')
+        this.parallel = config.parallel
         this.callback = config.callback
         this.reverse = reverse || false
-        this.duration = _.isNumber(duration) ? duration : 0
+        this.duration = _.isNumber(duration) ? duration : 1000
         this.delay = delay || 0
         this.interpolation = interpolation || 'easeOutExpo'
     }
@@ -196,7 +198,15 @@ class R_registered_dom {
             if (_.isFunction(config.callback)) {
                 config.callback(this)
             }
-            if (!!this.queue.length) this.run()
+            if (!!this.queue.length) {
+                this.run()
+            } else if (config.loop) {
+                this.queue.push(config.loop === 'alternate' ? new R_animate_config({
+                    ...config,
+                    reverse: !config.reverse
+                }) : config)
+                this.run()
+            }
         }
     }
 

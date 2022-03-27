@@ -27,7 +27,7 @@ export function r_warn(msg) {
 }
 
 export function isAnimationValid(str) {
-    str = str.toString().replace(/(\[((-|\.|\d)*?)~((-|\.|\d)+?)\])/g, '0')
+    str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~(?:-?(?:\d+\.*)*\d+?)])/g, '0')
     const check_reg = /^(?:(?:(?:-?(?:\d+\.*)*\d+?)(?:px|reg)?)|(?:rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\))|(?:(?:scale|translate|rotate|perspective|skew|matrix)(?:X|Y|Z)?\(-?(?:\d+\.*)*\d+?(?:px|deg)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg)?){0,2}\)\s*)+)$/g
     if (check_reg.test(str)) {
         return true
