@@ -32,7 +32,7 @@
 ---
 ### 点击看看如何实现👇
 
-[![](/image/example_3_cn.gif)](#范例3掉落模拟)
+[![](./image/example_3_cn.gif)](#范例3掉落模拟)
 
 
 ## 安装
@@ -45,7 +45,7 @@ npm install --save r_animate
 
 #### 范例1：渐入渐出
 
-![](/image/example_1_cn.gif)
+![](./image/example_1_cn.gif)
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-ufvvux)
 
@@ -72,7 +72,7 @@ this.$refs.circle
 
 #### 范例2：缩放
 
-![](/image/example_2_cn.gif)
+![](./image/example_2_cn.gif)
 
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-zpshvy)
@@ -100,7 +100,7 @@ this.$refs.circle
 
 #### 范例3：掉落模拟
 
-![](/image/example_3_cn.gif)
+![](./image/example_3_cn.gif)
 
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-fdkv5z)

@@ -30,7 +30,7 @@ More supporting are on process now.
 ---
 ### Click to see the implement👇
 
-[![](/image/example_3_cn.gif)](#example3drop-simulation)
+[![](./image/example_3_cn.gif)](#example3drop-simulation)
 
 
 ## Installation
@@ -43,7 +43,7 @@ npm install --save r_animate
 
 #### Example1：Fade in and out
 
-![](/image/example_1_cn.gif)
+![](./image/example_1_cn.gif)
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-ufvvux) in `Playground`
 
@@ -69,7 +69,7 @@ this.$refs.circle
 
 #### Example2：Zoom
 
-![](/image/example_2_cn.gif)
+![](./image/example_2_cn.gif)
 
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-zpshvy) in `Playground`
@@ -96,7 +96,7 @@ this.$refs.circle
 
 #### Example3：Drop simulation
 
-![](/image/example_3_cn.gif)
+![](./image/example_3_cn.gif)
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-fdkv5z) in `Playground`
 
