@@ -32,7 +32,7 @@
 ---
 ### 点击看看如何实现👇
 
-<a href="#范例3掉落模拟"><img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn"></a>
+[![](/image/example_3_cn.gif)](#范例3掉落模拟)
 
 
 ## 安装
@@ -45,7 +45,7 @@ npm install --save r_animate
 
 #### 范例1：渐入渐出
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
+![](/image/example_1_cn.gif)
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-ufvvux)
 
@@ -72,7 +72,8 @@ this.$refs.circle
 
 #### 范例2：缩放
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
+![](/image/example_2_cn.gif)
+
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-zpshvy)
 
@@ -99,7 +100,8 @@ this.$refs.circle
 
 #### 范例3：掉落模拟
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
+![](/image/example_3_cn.gif)
+
 
 您可以在 `Playground` 中 [查看并运行全部代码](https://stackblitz.com/edit/vue-fdkv5z)
 

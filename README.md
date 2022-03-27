@@ -32,6 +32,7 @@ More supporting are on process now.
 
 [![](/image/example_3_cn.gif)](#example3drop-simulation)
 
+
 ## Installation
 
 ```bash
@@ -42,7 +43,7 @@ npm install --save r_animate
 
 #### Example1：Fade in and out
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_1_cn.gif" alt="example_1_cn">
+![](/image/example_1_cn.gif)
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-ufvvux) in `Playground`
 
@@ -68,7 +69,8 @@ this.$refs.circle
 
 #### Example2：Zoom
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_2_cn.gif" alt="example_2_cn">
+![](/image/example_2_cn.gif)
+
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-zpshvy) in `Playground`
 
@@ -94,7 +96,7 @@ this.$refs.circle
 
 #### Example3：Drop simulation
 
-<img src="https://github.com/r1ader/r_animate/blob/main/image/example_3_cn.gif" alt="example_3_cn">
+![](/image/example_3_cn.gif)
 
 You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-fdkv5z) in `Playground`
 
