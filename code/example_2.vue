@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import R_director from 'r_animate';
+import { Director } from 'r_animate';
 
 export default {
   name: 'App',
   mounted() {
-    const director = new R_director();
+    const director = new Director();
     director.take(this);
 
     this.$refs.circle

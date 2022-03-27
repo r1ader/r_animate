@@ -67,10 +67,11 @@ const class_prop = [
     'delay',
     'interpolation',
     'parallel',
-    'loop'
+    'loop',
+    'loop_mode',
 ]
 
-class R_animate_config {
+class Act {
     constructor(config) {
         const { start, end, duration, delay, interpolation, reverse } = config
         Object.keys(config).forEach(key => {
@@ -141,7 +142,7 @@ class R_animate_config {
     }
 }
 
-class R_registered_dom {
+class Actor {
     constructor(r_id, item) {
         this.r_id = r_id
         this.ref = item
@@ -201,10 +202,14 @@ class R_registered_dom {
             if (!!this.queue.length) {
                 this.run()
             } else if (config.loop) {
-                this.queue.push(config.loop === 'alternate' ? new R_animate_config({
-                    ...config,
-                    reverse: !config.reverse
-                }) : config)
+                if (!config.loop) return
+                if (_.isNumber(config.loop)) {
+                    config.loop = config.loop - 1
+                }
+                if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
+                    config.reverse = !config.reverse
+                }
+                this.queue.push(config)
                 this.run()
             }
         }
@@ -234,7 +239,7 @@ class R_registered_dom {
     }
 
     r_animate(config) {
-        this.queue.push(new R_animate_config(config))
+        this.queue.push(new Act(config))
         if (!this.busy) {
             setTimeout(() => {
                 this.run()
@@ -244,7 +249,7 @@ class R_registered_dom {
     }
 
     r_then(func) {
-        this.queue.push(new R_animate_config({ duration: 0, callback: func }))
+        this.queue.push(new Act({ duration: 0, callback: func }))
         return this.ref
     }
 
@@ -265,7 +270,7 @@ class R_registered_dom {
     }
 
     r_sleep(delay_duration) {
-        this.queue.push(new R_animate_config({
+        this.queue.push(new Act({
             delay: delay_duration
         }))
         if (!this.busy) {
@@ -277,7 +282,7 @@ class R_registered_dom {
     }
 }
 
-class R_director extends R_registered_dom {
+export class Director extends Actor {
     constructor() {
         super(
             uuidv4().replace(/-/g, ""),
@@ -292,19 +297,20 @@ class R_director extends R_registered_dom {
     }
 
     register(args) {
+        clog('this',this)
         // todo deal the situation that one dom was registered for more than one time
         const wait_register_queue = []
         if (!_.isArray(args)) {
             const r_id = uuidv4().replace(/-/g, "")
             wait_register_queue.push(r_id)
-            this.registered_dict[r_id] = new R_registered_dom(r_id, args)
+            this.registered_dict[r_id] = new Actor(r_id, args)
             this.registered_queue.push(this.registered_dict[r_id])
         } else {
             args = _.compact(args)
             args.forEach(item => {
                 const r_id = uuidv4().replace(/-/g, "")
                 wait_register_queue.push(r_id)
-                this.registered_dict[r_id] = new R_registered_dom(r_id, item)
+                this.registered_dict[r_id] = new Actor(r_id, item)
                 this.registered_queue.push(this.registered_dict[r_id])
             })
         }
@@ -360,4 +366,7 @@ class R_director extends R_registered_dom {
     }
 }
 
-export default R_director
+const ceo = new Director()
+
+export const r_register = ceo.register.bind(ceo)
+

@@ -11,8 +11,8 @@
 
 - [ ] select a theme color for r_animate.js
 - [ ] **development**: add predefine animation `act`
-- [ ] **development**: add `r_register` as a root method
-- [ ] **development**: set `Director` as a root class instead of default export moudal
-- [ ] **development**: change the name of `Config` to `Act`
-- [ ] **development**: change the name of `Reigster_dom` to `Actor`
+- [x] **development**: add `r_register` as a root method
+- [x] **development**: set `Director` as a root class instead of default export moudal
+- [x] **development**: change the name of `Config` to `Act`
+- [x] **development**: change the name of `Reigster_dom` to `Actor`
 - [ ] **development**: support native javascript
