@@ -14,6 +14,8 @@
 
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
+
+
 </h4>
 
 <h3 align="center">以函数式编程的方式制作动画</h3>
@@ -47,8 +49,8 @@
 在上面的这一行代码中，存在三个对象 `actor`, `r_animate`, `act.FADE_OUT`， 以下，将分别解释这三个对象。
 
 - [actor](#actor)
-- [r_animate](#ranimate)
-- [act.FADE_OUT](#actfadeout)
+- [r_animate](#r_animate)
+- [act.FADE_OUT](#actfade_out)
 
 ## actor
 
@@ -81,7 +83,7 @@ const actor = document.getElementById('actor_id')
 r_register(actor)
 ```
 
-或者，在 `vue` 中，您可以注册一个导演类，在`mounted`使用它的 `take` 方法，就可以自动注册 `$refs` 中的所有 `Element` 对象了
+或者，在 <font color="green">**`vue`**</font> 中，您可以注册一个导演类，在 <font color="green">**`mounted`**</font> 使用它的 `take` 方法，就可以自动注册 <font color="green">**`$refs`**</font> 中的所有 `Element` 对象了
 
 
 ```javascript
@@ -95,8 +97,16 @@ export default {
 }
 ```
 
+在注册之后，`Element` 对象便可以开始动画。
+
+您可以调用 `Element` 对象的 `r_animate` 方法开始动画。
+
+关于 `r_animate` 的详情，可以继续查看 👇
+
 
 ## r_animate
+
+
 
 
 ## act.FADE_OUT
