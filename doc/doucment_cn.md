@@ -83,7 +83,7 @@ const actor = document.getElementById('actor_id')
 r_register(actor)
 ```
 
-或者，在 <font color="green">**`vue`**</font> 中，您可以注册一个导演类，在 <font color="green">**`mounted`**</font> 使用它的 `take` 方法，就可以自动注册 <font color="green">**`$refs`**</font> 中的所有 `Element` 对象了
+或者，在 **`vue`** 中，您可以注册一个导演类，在 **`mounted`** 使用它的 `take` 方法，就可以自动注册 **`$refs`** 中的所有 `Element` 对象了
 
 
 ```javascript
