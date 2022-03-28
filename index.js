@@ -1,4 +1,4 @@
-import "./src/lodash.js";
+import _ from "./src/lodash.js";
 import { ease_functions } from "./src/math.js"
 import {
     getNumberFromCssValue,
@@ -337,7 +337,7 @@ class Director extends Actor {
         wait_register_queue.forEach(r_id => {
             const registered_dom = this.registered_dict[r_id]
             const element = registered_dom.ref
-            registered_dom.default = _.cloneDeep(this.default)
+            registered_dom.default = { ...this.default }
             expose_props_list.forEach(props_name => {
                 element[props_name] = registered_dom[props_name]
             })
