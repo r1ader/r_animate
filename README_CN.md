@@ -34,12 +34,21 @@
 
 [![](./image/example_3_cn.gif)](#范例3掉落模拟)
 
-
 ## 安装
 
+### npm:
 ```bash
 npm install --save r_animate 
 ```
+
+### 浏览器:
+chrome, firefox 等主流浏览器已原生支持 import
+```html
+<script type="module">
+    import { r_register, act } from "https://unpkg.com/r_animate/index.js";
+</script>
+```
+[如何在原生html与javascript中使用r_animate.js](https://github.com/r1ader/r_animate/blob/main/code/test.html)
 
 ## 范例
 

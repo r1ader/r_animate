@@ -14,12 +14,17 @@ export function r_warn(msg) {
 }
 
 export function isAnimationValid(str) {
-    str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~(?:-?(?:\d+\.*)*\d+?)])/g, '0')
-    const check_reg = /^(?:(?:-?(?:\d+\.*)*\d+?(?:px|deg|%)?)|(?:rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\))|(?:(?:scale|translate|rotate|perspective|skew|matrix)(?:X|Y|Z)?\(-?(?:\d+\.*)*\d+?(?:px|deg|%)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg|%)?){0,2}\)\s*)+)$/g
-    if (check_reg.test(str)) {
-        return true
-    }
-    return false
+    str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~-?(?:\d+\.*)*\d+?])/g, '0')
+    let check_reg = /^-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?$/g
+    if (check_reg.test(str)) return true
+
+    check_reg = /^rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\)$/g
+    if (check_reg.test(str)) return true
+
+    check_reg = /^(?:(?:scale|translate|rotate|perspective|skew|matrix)[XYZ]?\(-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?){0,2}\)\s*)+$/g
+    return check_reg.test(str);
+
+
 }
 
 export function parseColorProps(start_color, end_color) {

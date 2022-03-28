@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="preload" href="https://unpkg.com/r_animate/index.js" as="script" />
     <title>r_animate test</title>
     <style>
         body {
@@ -11,9 +10,18 @@
         }
 
         #rect {
+            position: absolute;
             width: 100px;
             height: 100px;
             background-color: #444444;
+        }
+
+        #rect2 {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: #b0b0b0;
+            opacity: 0;
         }
 
         .playground {
@@ -27,33 +35,43 @@
 <body>
 <div class="playground">
     <div id="rect"></div>
+    <div id="rect2"></div>
 </div>
 </body>
 
-<script type="module" src="https://unpkg.com/r_animate/index.js">
-    console.log(r_register)
-</script>
+<script type="module">
+    import { r_register, act } from "https://unpkg.com/r_animate/index.js";
 
-<!--<script type="module">-->
-<!--    import { r_register, act } from "../index.js";-->
-<!--    const rect = document.getElementById('rect')-->
-<!--    r_register(rect)-->
-<!--    rect.r_animate({-->
-<!--        transform: 'scale([1~2])',-->
-<!--        loop: 3,-->
-<!--        loop_mode: 'alternate'-->
-<!--    }).r_animate({-->
-<!--        transform: 'rotate([0~1]turn)'-->
-<!--    }).r_animate({-->
-<!--        transform: 'rotateX([0~1]turn)'-->
-<!--    }).r_animate({-->
-<!--        transform: 'rotateY([0~1]turn)'-->
-<!--    }).r_animate({-->
-<!--        borderRadius: '[0~50]%',-->
-<!--        loop: 1,-->
-<!--        loop_mode: 'alternate'-->
-<!--    })-->
-<!--</script>-->
+    const rect = document.getElementById('rect')
+    const rect2 = document.getElementById('rect2')
+    r_register(rect)
+    r_register(rect2)
+    rect.r_animate({
+        transform: 'scale([1~2])',
+        loop: 3,
+        loop_mode: 'alternate'
+    }).r_animate({
+        transform: 'rotate([0~0.25]turn)'
+    }).r_animate({
+        transform: 'rotate([0~0.25]turn)',
+        reverse: true
+    }).r_animate({
+        transform: 'rotateX([0~1]turn)'
+    }).r_animate({
+        transform: 'rotateY([0~1]turn)'
+    }).r_animate({
+        borderRadius: '[0~50]%',
+        loop: 1,
+        loop_mode: 'alternate'
+    }).r_then(() => {
+        rect2.r_animate({
+            opacity: '[0~1]',
+            transform: 'scale([0~1]) rotateZ([0~1]turn)',
+        }).r_animate({
+            backgroundColor: 'rgb(68,68,68)'
+        })
+    })
+</script>
 <script>
 </script>
 </html>

@@ -15,8 +15,10 @@
 - [x] **development**: set `Director` as a root class instead of default export moudal
 - [x] **development**: change the name of `Config` to `Act`
 - [x] **development**: change the name of `Reigster_dom` to `Actor`
-- [ ] **development**: support native javascript
+- [x] **development**: support native javascript
 
 ### 2022/3/28 add
 - [ ] **development**: `loop` support the syntax `8 alternate`
 - [x] **development**: support setting the global act config of a director
+- [ ] **development**: native html and javascript that not support import
+- [ ] **development**: check umd, build the package 

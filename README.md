@@ -35,9 +35,22 @@ More supporting are on process now.
 
 ## Installation
 
+### npm:
 ```bash
 npm install --save r_animate 
 ```
+
+### Browser:
+Mainstream browsers such as chrome and firefox already support import natively
+
+```html
+<script type="module">
+    import { r_register, act } from "https://unpkg.com/r_animate/index.js";
+</script>
+```
+
+[how to use r_animate.js in native html and javascript](https://github.com/r1ader/r_animate/blob/main/code/test.html)
+
 
 ## Example
 

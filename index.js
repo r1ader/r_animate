@@ -160,11 +160,9 @@ class Actor {
         const config = this.schedule.shift()
         if (!config) return
         config.update(this.ref)
-        clog(config.toString())
         this.busy_with = config
         this.busy = true
         this.inter_func = ease_functions(config.ease)
-        clog(config.delay)
         if (config.delay > 0) {
             setTimeout(() => {
                 this.render_process = requestAnimationFrame(() => this.render(0))
