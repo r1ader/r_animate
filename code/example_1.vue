@@ -5,23 +5,26 @@
 </template>
 
 <script>
-import { Director } from 'r_animate';
+import { r_register, act } from 'r_animate';
 
 export default {
   name: 'App',
   mounted() {
-    const director = new Director();
-    director.take(this);
+    r_register(this.$refs.circle);
 
-    this.$refs.circle
-        .r_animate({
-          opacity: '[1~0]',
-          duration: 2000,
-        })
-        .r_animate({
-          opacity: '[0~1]',
-          duration: 2000,
-        });
+    this.$refs.circle.r_animate(act.FADE_OUT).r_animate(act.FADE_IN);
+
+    // or you can have a try with the follow code and use more configurations
+
+    // this.$refs.circle
+    //   .r_animate({
+    //     opacity: '[0~1]',
+    //     ease: 'Linear',
+    //     duration: 1000,
+    //     loop: 6,
+    //     loop_mode: 'alternate'
+    //   })
+    //
   },
 };
 </script>

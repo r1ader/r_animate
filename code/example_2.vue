@@ -5,22 +5,19 @@
 </template>
 
 <script>
-import { Director } from 'r_animate';
+import { r_register } from 'r_animate';
 
 export default {
   name: 'App',
   mounted() {
-    const director = new Director();
-    director.take(this);
+    r_register(this.$refs.circle);
 
     this.$refs.circle
         .r_animate({
           transform: 'scale([1~2])',
-          duration: 2000,
         })
         .r_animate({
           transform: 'scale([2~1])',
-          duration: 2000,
         });
   },
 };
