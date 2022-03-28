@@ -22,3 +22,7 @@
 - [x] **development**: support setting the global act config of a director
 - [ ] **development**: native html and javascript that not support import
 - [ ] **development**: check umd, build the package 
+
+
+### 2022/3/29 add
+- [ ] ease function support cubic-bezier
