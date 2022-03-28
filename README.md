@@ -59,19 +59,7 @@ You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-uf
 or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue) in `Github` 
 
 ```javascript
-// App.vue
-// ...
-// key code
-this.$refs.circle
-    .r_animate({
-        opacity: '[1~0]',
-        duration: 2000,
-    })
-    .r_animate({
-        opacity: '[0~1]',
-        duration: 2000,
-    });
-// ...
+ circle.r_animate(act.FADE_OUT).r_animate(act.FADE_IN);
 ```
 
 ---
