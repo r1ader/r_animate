@@ -252,7 +252,7 @@ export default {
 
 除了 `act_key` 和 `act_value` 外，
 
-你可能还需配置动画的时长，这时你需要定义 `duration`
+您可能还需配置动画的时长 `duration`
 
 ```javascript
 { 
