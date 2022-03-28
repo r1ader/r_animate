@@ -1,5 +1,4 @@
 import _ from "lodash";
-import { v4 as uuidv4 } from 'uuid';
 import { ease_functions } from "./src/math"
 import {
     deep_assign,
@@ -7,10 +6,10 @@ import {
     isAnimationValid,
     r_warn,
     parseColorProps,
-    defineNameForAct
+    defineNameForAct,
+    uuidv4,
+    clog
 } from "./src/util";
-
-const clog = console.log
 
 const expose_func_list = [
     'clean_remain_process',
@@ -20,6 +19,7 @@ const expose_func_list = [
     'r_schedule',
     'r_skip',
     'r_cancel',
+    'r_default',
 ]
 
 const expose_props_list = [
@@ -79,13 +79,15 @@ class Act {
         Object.keys(argus).forEach(key => {
             this[key] = argus[key]
         })
-        this.name = argus.name || defineNameForAct(argus)
-        this.parallel = argus.parallel
         this.callback = argus.callback
-        this.reverse = argus.reverse || false
         this.duration = _.isNumber(argus.duration) ? argus.duration : 1000
-        this.delay = argus.delay || 0
         this.ease = argus.ease || 'easeOutExpo'
+        this.delay = argus.delay || 0
+        this.loop = argus.loop
+        this.loop_mode = argus.loop_mode
+        this.name = argus.name
+        this.parallel = argus.parallel
+        this.reverse = argus.reverse || false
     }
 
     // todo support the single item of transform
@@ -134,6 +136,10 @@ class Act {
         if (_.isNumber(this.duration)) res += this.duration
         return res
     }
+
+    toString() {
+        return defineNameForAct(this)
+    }
 }
 
 class Actor {
@@ -144,6 +150,7 @@ class Actor {
         this.busy_with = null
         this.schedule = []
         this.inter_func = (a) => a
+        this.default = {}
     }
 
     run() {
@@ -153,10 +160,11 @@ class Actor {
         }
         const config = this.schedule.shift()
         if (!config) return
+        config.update(this.ref)
+        clog(config.toString())
         this.busy_with = config
         this.busy = true
         this.inter_func = ease_functions(config.ease)
-        config.update(this.ref)
         this.render_process = requestAnimationFrame(() => this.render(0))
     }
 
@@ -193,9 +201,7 @@ class Actor {
             if (_.isFunction(config.callback)) {
                 config.callback(this)
             }
-            if (!!this.schedule.length) {
-                this.run()
-            } else if (config.loop) {
+            if (config.loop) {
                 if (!config.loop) return
                 if (_.isNumber(config.loop)) {
                     config.loop = config.loop - 1
@@ -203,7 +209,9 @@ class Actor {
                 if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
                     config.reverse = !config.reverse
                 }
-                this.schedule.push(config)
+                this.schedule.unshift(config)
+            }
+            if (!!this.schedule.length) {
                 this.run()
             }
         }
@@ -233,7 +241,7 @@ class Actor {
     }
 
     r_animate(config) {
-        this.schedule.push(new Act(config))
+        this.schedule.push(new Act(Object.assign({ ...this.default }, config)))
         if (!this.busy) {
             setTimeout(() => {
                 this.run()
@@ -279,9 +287,13 @@ class Actor {
         }
         return this.ref
     }
+
+    r_default(config) {
+        this.default = { ...config }
+    }
 }
 
-export class Director extends Actor {
+class Director extends Actor {
     constructor() {
         super(
             uuidv4().replace(/-/g, ""),
@@ -292,6 +304,8 @@ export class Director extends Actor {
         this.registered_dict = {}
 
         this.registered_queue = []
+
+        this.default = {}
 
     }
 
@@ -316,6 +330,7 @@ export class Director extends Actor {
         wait_register_queue.forEach(r_id => {
             const registered_dom = this.registered_dict[r_id]
             const element = registered_dom.ref
+            registered_dom.default = _.cloneDeep(this.default)
             expose_props_list.forEach(props_name => {
                 element[props_name] = registered_dom[props_name]
             })
@@ -340,6 +355,7 @@ export class Director extends Actor {
     }
 
     cut() {
+        // todo rename registered_queue as actors
         this.registered_queue.forEach(member => {
             member.schedule = []
             member.stop()
@@ -362,9 +378,26 @@ export class Director extends Actor {
             return registered_dom.ref
         })
     }
+
+    r_default(config) {
+        this.default = { ...config }
+        this.registered_queue.forEach(member => {
+            member.default = { ...config }
+        })
+    }
 }
 
 const ceo = new Director()
 
-export const r_register = ceo.register.bind(ceo)
+const r_register = ceo.register.bind(ceo)
+const r_default = ceo.r_default.bind(ceo)
+
+import act from './src/act'
+
+export {
+    Director,
+    r_register,
+    r_default,
+    act
+}
 

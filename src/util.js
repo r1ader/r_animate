@@ -43,8 +43,14 @@ export function parseColorProps(start_color, end_color) {
     }
 }
 
-export function defineNameForAct  (config) {
-    return Object.keys(config)
+export function defineNameForAct(config) {
+    return Object.keys(config).filter(o => config[o])
         .map(o => `${ o } : ${ config[o].toString() }`)
         .join('\n')
 }
+
+export function uuidv4() {
+    return Math.floor(Math.random() * 100000000).toString()
+}
+
+export const clog = console.log
