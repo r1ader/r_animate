@@ -1,7 +1,6 @@
-import _ from "lodash";
-import { ease_functions } from "./src/math"
+import "./src/lodash.js";
+import { ease_functions } from "./src/math.js"
 import {
-    deep_assign,
     getNumberFromCssValue,
     isAnimationValid,
     r_warn,
@@ -9,7 +8,7 @@ import {
     defineNameForAct,
     uuidv4,
     clog
-} from "./src/util";
+} from "./src/util.js";
 
 const expose_func_list = [
     'clean_remain_process',
@@ -165,7 +164,15 @@ class Actor {
         this.busy_with = config
         this.busy = true
         this.inter_func = ease_functions(config.ease)
-        this.render_process = requestAnimationFrame(() => this.render(0))
+        clog(config.delay)
+        if (config.delay > 0) {
+            setTimeout(() => {
+                this.render_process = requestAnimationFrame(() => this.render(0))
+            }, config.delay)
+        } else {
+            this.render_process = requestAnimationFrame(() => this.render(0))
+
+        }
     }
 
     render(frame_index) {
@@ -392,7 +399,7 @@ const ceo = new Director()
 const r_register = ceo.register.bind(ceo)
 const r_default = ceo.r_default.bind(ceo)
 
-import act from './src/act'
+import act from './src/act.js'
 
 export {
     Director,

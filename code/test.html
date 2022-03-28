@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preload" href="https://unpkg.com/r_animate/index.js" as="script" />
+    <title>r_animate test</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        #rect {
+            width: 100px;
+            height: 100px;
+            background-color: #444444;
+        }
+
+        .playground {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<div class="playground">
+    <div id="rect"></div>
+</div>
+</body>
+
+<script type="module" src="https://unpkg.com/r_animate/index.js">
+    console.log(r_register)
+</script>
+
+<!--<script type="module">-->
+<!--    import { r_register, act } from "../index.js";-->
+<!--    const rect = document.getElementById('rect')-->
+<!--    r_register(rect)-->
+<!--    rect.r_animate({-->
+<!--        transform: 'scale([1~2])',-->
+<!--        loop: 3,-->
+<!--        loop_mode: 'alternate'-->
+<!--    }).r_animate({-->
+<!--        transform: 'rotate([0~1]turn)'-->
+<!--    }).r_animate({-->
+<!--        transform: 'rotateX([0~1]turn)'-->
+<!--    }).r_animate({-->
+<!--        transform: 'rotateY([0~1]turn)'-->
+<!--    }).r_animate({-->
+<!--        borderRadius: '[0~50]%',-->
+<!--        loop: 1,-->
+<!--        loop_mode: 'alternate'-->
+<!--    })-->
+<!--</script>-->
+<script>
+</script>
+</html>

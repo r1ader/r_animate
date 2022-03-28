@@ -18,5 +18,5 @@
 - [ ] **development**: support native javascript
 
 ### 2022/3/28 add
-- [ ] **development**: todo `loop` support the syntax `8 alternate`
+- [ ] **development**: `loop` support the syntax `8 alternate`
 - [x] **development**: support setting the global act config of a director

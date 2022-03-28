@@ -1,16 +1,3 @@
-import _ from "lodash";
-
-export function deep_assign(target, origin) {
-    Object.keys(origin).forEach(key => {
-        if (_.isObject(origin[key])) {
-            target[key] = deep_assign(target[key], origin[key])
-        } else {
-            target[key] = origin[key]
-        }
-    })
-    return target
-}
-
 // todo support more unit
 export function getNumberFromCssValue(value, unit) {
     unit = unit || ''
@@ -28,7 +15,7 @@ export function r_warn(msg) {
 
 export function isAnimationValid(str) {
     str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~(?:-?(?:\d+\.*)*\d+?)])/g, '0')
-    const check_reg = /^(?:(?:-?(?:\d+\.*)*\d+?(?:px|reg)?)|(?:rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\))|(?:(?:scale|translate|rotate|perspective|skew|matrix)(?:X|Y|Z)?\(-?(?:\d+\.*)*\d+?(?:px|deg)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg)?){0,2}\)\s*)+)$/g
+    const check_reg = /^(?:(?:-?(?:\d+\.*)*\d+?(?:px|deg|%)?)|(?:rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\))|(?:(?:scale|translate|rotate|perspective|skew|matrix)(?:X|Y|Z)?\(-?(?:\d+\.*)*\d+?(?:px|deg|%)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg|%)?){0,2}\)\s*)+)$/g
     if (check_reg.test(str)) {
         return true
     }
