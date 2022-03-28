@@ -6,26 +6,26 @@
 </template>
 
 <script>
-import R_director from 'r_animate';
+import { Director } from 'r_animate';
 
 export default {
   name: 'App',
   mounted() {
-    const director = new R_director();
+    const director = new Director();
     director.take(this);
 
     const down = (height) => {
       return {
         transform: `translateY([-${ height }~0]px)`,
         duration: height * 2.5,
-        interpolation: 'easeInQuad',
+        ease: 'easeInQuad',
       };
     };
     const up = (height) => {
       return {
         ...down(height),
         reverse: true,
-        interpolation: 'easeOutQuad',
+        ease: 'easeOutQuad',
       };
     };
     let height_of_bounce = (times) => {
@@ -71,7 +71,7 @@ export default {
         opacity: `[${ ratio }~1]`,
         transform: `translateY(-50px) scale([${ ratio }~1]) scaleY(0.1)`,
         duration: (1 - ratio) * 500,
-        interpolation: 'easeInQuad',
+        ease: 'easeInQuad',
       };
     };
 
@@ -79,7 +79,7 @@ export default {
       return {
         ...shadow_swell(ratio),
         reverse: true,
-        interpolation: 'easeOutQuad',
+        ease: 'easeOutQuad',
       };
     };
     let ratio_of_shaow = (times) => {

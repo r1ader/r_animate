@@ -1,12 +1,13 @@
 import _ from "lodash";
 import { v4 as uuidv4 } from 'uuid';
-import { interpolation_functions } from "./src/math"
+import { ease_functions } from "./src/math"
 import {
     deep_assign,
     getNumberFromCssValue,
     isAnimationValid,
     r_warn,
-    parseColorProps
+    parseColorProps,
+    defineNameForAct
 } from "./src/util";
 
 const clog = console.log
@@ -16,15 +17,16 @@ const expose_func_list = [
     'r_animate',
     'r_then',
     'r_busy',
-    'r_queue',
+    'r_schedule',
+    'r_skip',
     'r_cancel',
 ]
 
 const expose_props_list = [
     'r_id',
     'busy',
-    'queue',
-    'in_task',
+    'busy_with',
+    'schedule',
 ]
 
 const config_props_list = [
@@ -32,7 +34,7 @@ const config_props_list = [
     'reverse',
     'duration',
     'delay',
-    'interpolation',
+    'ease',
 ]
 
 const support_props = {
@@ -65,36 +67,35 @@ const class_prop = [
     'reverse',
     'duration',
     'delay',
-    'interpolation',
+    'ease',
     'parallel',
+    'loop',
+    'loop_mode',
 ]
 
-class R_animate_config {
-    constructor(config) {
-        const { start, end, duration, delay, interpolation, reverse } = config
-        Object.keys(config).forEach(key => {
-            this[key] = config[key]
+
+class Act {
+    constructor(argus) {
+        Object.keys(argus).forEach(key => {
+            this[key] = argus[key]
         })
-        this.name = config.name ||
-            Object.keys(config)
-                .filter(o => config_props_list.indexOf(o) === -1)
-                .map(o => `${ o } : ${ config[o] }`)
-                .join('\n')
-        this.callback = config.callback
-        this.reverse = reverse || false
-        this.duration = _.isNumber(duration) ? duration : 0
-        this.delay = delay || 0
-        this.interpolation = interpolation || 'easeOutExpo'
+        this.name = argus.name || defineNameForAct(argus)
+        this.parallel = argus.parallel
+        this.callback = argus.callback
+        this.reverse = argus.reverse || false
+        this.duration = _.isNumber(argus.duration) ? argus.duration : 1000
+        this.delay = argus.delay || 0
+        this.ease = argus.ease || 'easeOutExpo'
     }
 
     // todo support the single item of transform
     //  and auto fill other item with update function
 
     // todo support the unit change e.g.(em px vw vh)
+
+    // todo move the check step to the constructor
     update(ref) {
         Object.keys(this).filter(o => class_prop.indexOf(o) === -1).forEach(key => {
-            // todo replace all the [0~1] like pattern with a number
-            //  decrease the pressure of the regex
             if (!isAnimationValid(this[key])) {
                 return r_warn(`syntax error ${ key } : ${ this[key] }`)
             }
@@ -127,10 +128,6 @@ class R_animate_config {
         })
     }
 
-    replace(obj) {
-        return deep_assign(this, obj)
-    }
-
     get plan_duration() {
         let res = 0
         if (_.isNumber(this.delay)) res += this.delay
@@ -139,32 +136,32 @@ class R_animate_config {
     }
 }
 
-class R_registered_dom {
-    constructor(r_id, item) {
+class Actor {
+    constructor(r_id, el) {
         this.r_id = r_id
-        this.ref = item
+        this.ref = el
         this.busy = false
-        this.in_task = null
-        this.queue = []
+        this.busy_with = null
+        this.schedule = []
         this.inter_func = (a) => a
     }
 
     run() {
         if (this.busy) return
-        if (this.queue.length === 0) {
-            console.warn(this.ref.toString() + '’s queue is empty')
+        if (this.schedule.length === 0) {
+            console.warn(this.ref.toString() + '’s schedule is empty')
         }
-        const config = this.queue.shift()
+        const config = this.schedule.shift()
         if (!config) return
-        this.in_task = config
+        this.busy_with = config
         this.busy = true
-        this.inter_func = interpolation_functions(config.interpolation)
+        this.inter_func = ease_functions(config.ease)
         config.update(this.ref)
         this.render_process = requestAnimationFrame(() => this.render(0))
     }
 
     render(frame_index) {
-        const config = this.in_task
+        const config = this.busy_with
         if (!config) return
         const ratio = this.inter_func(Math.min((frame_index * 16 / config.plan_duration), 1.0))
         Object.keys(config).forEach(key => {
@@ -192,11 +189,23 @@ class R_registered_dom {
             requestAnimationFrame(() => this.render(frame_index + 1))
         } else {
             this.busy = false
-            this.in_task = null
+            this.busy_with = null
             if (_.isFunction(config.callback)) {
                 config.callback(this)
             }
-            if (!!this.queue.length) this.run()
+            if (!!this.schedule.length) {
+                this.run()
+            } else if (config.loop) {
+                if (!config.loop) return
+                if (_.isNumber(config.loop)) {
+                    config.loop = config.loop - 1
+                }
+                if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
+                    config.reverse = !config.reverse
+                }
+                this.schedule.push(config)
+                this.run()
+            }
         }
     }
 
@@ -206,7 +215,7 @@ class R_registered_dom {
             this.render_process = undefined
         }
         this.busy = false
-        this.in_task = null
+        this.busy_with = null
     }
 
     r_cancel() {
@@ -215,16 +224,16 @@ class R_registered_dom {
             this.render_process = undefined
         }
         this.busy = false
-        this.in_task = null
-        this.queue = []
+        this.busy_with = null
+        this.schedule = []
     }
 
     clean_remain_process() {
-        this.queue = []
+        this.schedule = []
     }
 
     r_animate(config) {
-        this.queue.push(new R_animate_config(config))
+        this.schedule.push(new Act(config))
         if (!this.busy) {
             setTimeout(() => {
                 this.run()
@@ -234,7 +243,7 @@ class R_registered_dom {
     }
 
     r_then(func) {
-        this.queue.push(new R_animate_config({ duration: 0, callback: func }))
+        this.schedule.push(new Act({ duration: 0, callback: func }))
         return this.ref
     }
 
@@ -242,12 +251,17 @@ class R_registered_dom {
         return this.busy
     }
 
-    r_queue() {
-        return this.queue
+    r_skip() {
+        this.schedule.shift()
+        return this.ref
+    }
+
+    r_schedule() {
+        return this.schedule
     }
 
     r_same(target) {
-        target.queue = target.queue.concat(this.queue)
+        target.schedule = target.schedule.concat(this.schedule)
         setTimeout(() => {
             target.run()
         }, 16)
@@ -255,7 +269,7 @@ class R_registered_dom {
     }
 
     r_sleep(delay_duration) {
-        this.queue.push(new R_animate_config({
+        this.schedule.push(new Act({
             delay: delay_duration
         }))
         if (!this.busy) {
@@ -267,7 +281,7 @@ class R_registered_dom {
     }
 }
 
-class R_director extends R_registered_dom {
+export class Director extends Actor {
     constructor() {
         super(
             uuidv4().replace(/-/g, ""),
@@ -287,14 +301,14 @@ class R_director extends R_registered_dom {
         if (!_.isArray(args)) {
             const r_id = uuidv4().replace(/-/g, "")
             wait_register_queue.push(r_id)
-            this.registered_dict[r_id] = new R_registered_dom(r_id, args)
+            this.registered_dict[r_id] = new Actor(r_id, args)
             this.registered_queue.push(this.registered_dict[r_id])
         } else {
             args = _.compact(args)
             args.forEach(item => {
                 const r_id = uuidv4().replace(/-/g, "")
                 wait_register_queue.push(r_id)
-                this.registered_dict[r_id] = new R_registered_dom(r_id, item)
+                this.registered_dict[r_id] = new Actor(r_id, item)
                 this.registered_queue.push(this.registered_dict[r_id])
             })
         }
@@ -327,7 +341,7 @@ class R_director extends R_registered_dom {
 
     cut() {
         this.registered_queue.forEach(member => {
-            member.queue = []
+            member.schedule = []
             member.stop()
         })
     }
@@ -341,7 +355,7 @@ class R_director extends R_registered_dom {
         const origin_dom = this.registered_dict[origin.r_id]
         targets.forEach(target => {
             const registered_dom = this.registered_dict[target.r_id]
-            registered_dom.queue = registered_dom.queue.concat(origin_dom.queue)
+            registered_dom.schedule = registered_dom.schedule.concat(origin_dom.schedule)
             setTimeout(() => {
                 registered_dom.run()
             }, 16)
@@ -350,4 +364,7 @@ class R_director extends R_registered_dom {
     }
 }
 
-export default R_director
+const ceo = new Director()
+
+export const r_register = ceo.register.bind(ceo)
+

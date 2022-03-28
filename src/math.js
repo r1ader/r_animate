@@ -1,4 +1,4 @@
-export function interpolation_functions(method) {
+export function ease_functions(method) {
     switch (method) {
         case 'easeInSine':
             return (x) => {
