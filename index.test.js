@@ -8,7 +8,7 @@ const true_array = [
     'translate(-10px,10px)', 'rotate(0)',
     'translate([300~-80]px, [300~-30]px) rotateZ(20deg)',
     'translate(-20px,100px) scale(0.7) perspective(500px) rotateY(-40deg) rotateX(20deg) rotateZ(-50deg)',
-
+    'rotateY([0~90]deg) perspective(100px) rotateX([110~110]deg) rotateZ([45~45]deg)',
     // color
     'rgb(47, 29, 253)',
     'rgba(47, 29, 253)',

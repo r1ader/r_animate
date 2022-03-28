@@ -20,7 +20,12 @@
   },
   "homepage": "https://github.com/r1ader/r_animate#readme",
   "dependencies": {
-    "lodash": "^4.17.21",
-    "uuid": "^8.3.2"
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
+    "babel-jest": "^27.5.1",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4"
   }
 }
