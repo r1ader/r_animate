@@ -17,7 +17,7 @@
 
 请悉知:
 
-`r_animate.js` 项目正在起步阶段 ，目前暂只支持 `vue` 。
+`r_animate.js` 项目正在起步阶段 ，目前暂只支持 `vue` 和 `浏览器`。
 
 更多的支持正在开发中。
 
@@ -30,9 +30,6 @@
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
 ---
-### 点击看看如何实现👇
-
-[![](./image/example_3_cn.gif)](#范例3掉落模拟)
 
 ## 安装
 
@@ -63,18 +60,7 @@ chrome, firefox 等主流浏览器已原生支持 import
 也可以在 `Github` 中 [查看全部代码](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue)
 
 ```javascript
-//...
-// 关键代码
-this.$refs.circle
-    .r_animate({
-        opacity: '[1~0]',
-        duration: 2000,
-    })
-    .r_animate({
-        opacity: '[0~1]',
-        duration: 2000,
-    });
-//...
+    circle.r_animate(act.FADE_OUT).r_animate(act.FADE_IN);
 ```
 
 ---

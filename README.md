@@ -17,7 +17,7 @@ Notice:
 
 `r_animate.js` is in its infancy.
 
-`r_animate.js` is only performance well on `vue` right-now. 
+`r_animate.js` is only performance well on `vue` and `browser` that support `import` natively right-now. 
         
 More supporting are on process now.
 
@@ -28,10 +28,6 @@ More supporting are on process now.
 [npm-version-href]: https://www.npmjs.com/package/r_animate
 
 ---
-### Click to see the implement👇
-
-[![](./image/example_3_cn.gif)](#example3drop-simulation)
-
 
 ## Installation
 
