@@ -17,7 +17,7 @@
 
 ---
 
-English | [中文](https://github.com/r1ader/r_animate/blob/main/doc/doucment_cn.md)
+English | [中文](https://github.com/r1ader/r_animate/blob/main/doc/document_cn.md)
 
 ---
 

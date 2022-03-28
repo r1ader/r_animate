@@ -22,7 +22,7 @@
 
 ---
 
-[English](https://github.com/r1ader/r_animate/blob/main/doc/doucment.md) | 中文
+[English](https://github.com/r1ader/r_animate/blob/main/doc/document.md) | 中文
 
 请悉知： 本文档正在编写中...
 
