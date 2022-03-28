@@ -48,6 +48,14 @@ chrome, firefox 等主流浏览器已原生支持 import
 如何在原生html与javascript中使用r_animate.js ？👉
 [[code](https://github.com/r1ader/r_animate/blob/main/code/test.html)][[demo](https://r1ader.github.io/r_animate/code/test.html)]
 
+
+## 文档
+
+### [Guide Document](https://github.com/r1ader/r_animate/blob/main/doc/document_cn.md#r_animatejs)
+
+### [Api Document](https://github.com/r1ader/r_animate/blob/main/doc/api_cn.md#r_animatejs)
+
+
 ## 范例
 
 #### 范例1：渐入渐出
