@@ -45,7 +45,8 @@ chrome, firefox 等主流浏览器已原生支持 import
     import { r_register, act } from "https://unpkg.com/r_animate/index.js";
 </script>
 ```
-[如何在原生html与javascript中使用r_animate.js](https://github.com/r1ader/r_animate/blob/main/code/test.html)
+如何在原生html与javascript中使用r_animate.js ？👉
+[[code](https://github.com/r1ader/r_animate/blob/main/code/test.html)][[demo](https://r1ader.github.io/r_animate/code/test.html)]
 
 ## 范例
 

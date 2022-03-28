@@ -44,9 +44,8 @@ Mainstream browsers such as chrome and firefox already support import natively
     import { r_register, act } from "https://unpkg.com/r_animate/index.js";
 </script>
 ```
-
-[how to use r_animate.js in native html and javascript](https://github.com/r1ader/r_animate/blob/main/code/test.html)
-
+how to use r_animate.js in native html and javascript ? 👉
+[[code](https://github.com/r1ader/r_animate/blob/main/code/test.html)][[demo](https://r1ader.github.io/r_animate/code/test.html)]
 
 ## Example
 
