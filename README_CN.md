@@ -51,9 +51,9 @@ chrome, firefox 等主流浏览器已原生支持 import
 
 ## 文档
 
-### [GET START](https://github.com/r1ader/r_animate/blob/main/doc/document_cn.md#r_animatejs)
+### [GET START](https://r1ader.gitbook.io/r_animate_cn/get_start)
 
-### [API DOC](https://github.com/r1ader/r_animate/blob/main/doc/api_cn.md#r_animatejs)
+### [API DOC](https://r1ader.gitbook.io/r_animate_cn/api-wen-dang)
 
 
 ## 范例
