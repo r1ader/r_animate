@@ -19,6 +19,13 @@
 
 English | [中文](https://github.com/r1ader/r_animate/blob/main/doc/document_cn.md)
 
+Notice：the document is in process.
+
 ---
 
 # Introduce
+
+`r_animate.js` provide us a easy way to produce animation with functional programming
+
+almoust every method in `r_animate.js` , has the form like `Things`.`do`(`something`)
+
