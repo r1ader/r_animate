@@ -11,7 +11,7 @@
 
 ---
 
-English | [中文](https://github.com/r1ader/r_animate/blob/main/README_CN.md)
+English | [中文](https://r1ader.gitbook.io/r_animate_cn/)
 
 Notice: 
 
