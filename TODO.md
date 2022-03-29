@@ -29,3 +29,4 @@
 - [ ] .r_loop() .r_loop(6) .r_loop('6 alternate')
 - [ ] .r_wait()
 - [ ] .r_sleep()
+- [ ] .r (temporal r_register)

@@ -1,14 +1,257 @@
-import _ from "./src/lodash.js";
-import { ease_functions } from "./src/math.js"
-import {
-    getNumberFromCssValue,
-    isAnimationValid,
-    r_warn,
-    parseColorProps,
-    defineNameForAct,
-    uuidv4,
-    clog
-} from "./src/util.js";
+
+function isObjectLike(value) {
+    return typeof value === 'object' && value !== null
+}
+
+const lodash_toString = Object.prototype.toString
+
+function getTag(value) {
+    if (value == null) {
+        return value === undefined ? '[object Undefined]' : '[object Null]'
+    }
+    return lodash_toString.call(value)
+}
+
+function isNumber(value) {
+    return typeof value === 'number' ||
+        (isObjectLike(value) && getTag(value) == '[object Number]')
+}
+
+const isArray = Array.isArray
+
+function isString(value) {
+    const type = typeof value
+    return type === 'string' || (type === 'object' && value != null && !Array.isArray(value) && getTag(value) == '[object String]')
+}
+
+const NAN = 0 / 0
+
+/** Used to match leading and trailing whitespace. */
+const reTrim = /^\s+|\s+$/g
+
+/** Used to detect bad signed hexadecimal string values. */
+const reIsBadHex = /^[-+]0x[0-9a-f]+$/i
+
+/** Used to detect binary string values. */
+const reIsBinary = /^0b[01]+$/i
+
+/** Used to detect octal string values. */
+const reIsOctal = /^0o[0-7]+$/i
+
+/** Built-in method references without a dependency on `root`. */
+const freeParseInt = parseInt
+
+function isObject(value) {
+    const type = typeof value
+    return value != null && (type === 'object' || type === 'function')
+}
+
+function isSymbol(value) {
+    const type = typeof value
+    return type == 'symbol' || (type === 'object' && value != null && getTag(value) == '[object Symbol]')
+}
+
+function toNumber(value) {
+    if (typeof value === 'number') {
+        return value
+    }
+    if (isSymbol(value)) {
+        return NAN
+    }
+    if (isObject(value)) {
+        const other = typeof value.valueOf === 'function' ? value.valueOf() : value
+        value = isObject(other) ? `${ other }` : other
+    }
+    if (typeof value !== 'string') {
+        return value === 0 ? value : +value
+    }
+    value = value.replace(reTrim, '')
+    const isBinary = reIsBinary.test(value)
+    return (isBinary || reIsOctal.test(value))
+        ? freeParseInt(value.slice(2), isBinary ? 2 : 8)
+        : (reIsBadHex.test(value) ? NAN : +value)
+}
+
+function isFunction(value) {
+    return typeof value === 'function'
+}
+
+function compact(array) {
+    let resIndex = 0
+    const result = []
+
+    if (array == null) {
+        return result
+    }
+
+    for (const value of array) {
+        if (value) {
+            result[resIndex++] = value
+        }
+    }
+    return result
+}
+
+/* harmony default export */ const lodash = ({
+    isNumber,
+    isArray,
+    isString,
+    toNumber,
+    isFunction,
+    compact
+});
+;// CONCATENATED MODULE: ./src/math.js
+function ease_functions(method) {
+    switch (method) {
+        case 'easeInSine':
+            return (x) => {
+                return 1 - Math.cos((x * Math.PI) / 2);
+            }
+        case 'easeInCirc':
+            return (x) => {
+                return 1 - Math.sqrt(1 - Math.pow(x, 2));
+            }
+
+        case 'easeOutSine':
+            return (x) => {
+                return Math.sin((x * Math.PI) / 2);
+            }
+        case 'easeOutCirc':
+            return (x) => {
+                return Math.sqrt(1 - Math.pow(x - 1, 2));
+            }
+
+        case 'easeInOutSine':
+            return (x) => {
+                return -(Math.cos(PI * x) - 1) / 2;
+            }
+        case 'easeInOutCirc':
+            return (x) => {
+                return x < 0.5
+                    ? (1 - Math.sqrt(1 - Math.pow(2 * x, 2))) / 2
+                    : (Math.sqrt(1 - Math.pow(-2 * x + 2, 2)) + 1) / 2;
+            }
+
+        case 'easeInQuad':
+            return (x) => {
+                return x * x;
+            }
+        case 'easeInBack':
+            return (x) => {
+                const c1 = 1.70158;
+                const c3 = c1 + 1;
+
+                return c3 * x * x * x - c1 * x * x;
+            }
+
+        case 'easeOutQuad':
+            return (x) => {
+                return 1 - (1 - x) * (1 - x);
+            }
+        case 'easeOutExpo':
+            return (x) => {
+                return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
+            }
+        case 'easeOutBack':
+            return (x) => {
+                const c1 = 1.70158;
+                const c3 = c1 + 1;
+
+                return 1 + c3 * Math.pow(x - 1, 3) + c1 * Math.pow(x - 1, 2);
+            }
+
+
+        case 'easeInOutQuad':
+            return (x) => {
+                return x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2;
+            }
+        case 'easeInOutBack':
+            return (x) => {
+                const c1 = 1.70158;
+                const c2 = c1 * 1.525;
+
+                return x < 0.5
+                    ? (Math.pow(2 * x, 2) * ((c2 + 1) * 2 * x - c2)) / 2
+                    : (Math.pow(2 * x - 2, 2) * ((c2 + 1) * (x * 2 - 2) + c2) + 2) / 2;
+            }
+        case 'easeInOutExpo':
+            return (x) => {
+                return x === 0
+                    ? 0
+                    : x === 1
+                        ? 1
+                        : x < 0.5 ? Math.pow(2, 20 * x - 10) / 2
+                            : (2 - Math.pow(2, -20 * x + 10)) / 2;
+            }
+
+        default:
+            return (x) => {
+                return x
+            }
+    }
+}
+;// CONCATENATED MODULE: ./src/util.js
+// todo support more unit
+function getNumberFromCssValue(value, unit) {
+    unit = unit || ''
+    // const px_reg = /(-|\d+|\.)+?px/g
+    const reg = new RegExp(`^(-|\\d+|\\.)+[${unit}]*$`, 'gi')
+    const res = reg.exec(value)
+    // clog(value, reg, res)
+    if (!res) return undefined
+    return parseFloat(res[0].replace('px', ''))
+}
+
+function r_warn(msg) {
+    console.warn(`r_animate.js warning: ${ msg }`)
+}
+
+function isAnimationValid(str) {
+    str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~-?(?:\d+\.*)*\d+?])/g, '0')
+    let check_reg = /^-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?$/g
+    if (check_reg.test(str)) return true
+
+    check_reg = /^rgba*\((?:\d+\.*)*\d+?(?:,\s?(?:\d+\.*)*\d+?){2,3}\)$/g
+    if (check_reg.test(str)) return true
+
+    check_reg = /^(?:(?:scale|translate|rotate|perspective|skew|matrix)[XYZ]?\(-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?(?:,\s?-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?){0,2}\)\s*)+$/g
+    return check_reg.test(str);
+
+
+}
+
+function parseColorProps(start_color, end_color) {
+    if ((start_color + end_color).indexOf('a') === -1) {
+        const [sr, sg, sb] = start_color.replace('rgb(', '').replace(')', '').replace(/\s/g, '').split(',')
+        const [er, eg, eb] = end_color.replace('rgb(', '').replace(')', '').replace(/\s/g, '').split(',')
+        return `rgb([${ sr }~${ er }],[${ sg }~${ eg }],[${ sb }~${ eb }])`
+    }
+}
+
+function defineNameForAct(config) {
+    return Object.keys(config).filter(o => config[o])
+        .map(o => `${ o } : ${ config[o].toString() }`)
+        .join('\n')
+}
+
+function util_uuidv4() {
+    return Math.floor(Math.random() * 100000000).toString()
+}
+
+const clog = console.log
+;// CONCATENATED MODULE: ./src/act.js
+/* harmony default export */ const act = ({
+    FADE_OUT: {
+        opacity: '[1~0]'
+    },
+    FADE_IN: {
+        opacity: '[0~1]'
+    }
+});
+;// CONCATENATED MODULE: ./index.js
+
+
+
 
 const expose_func_list = [
     'clean_remain_process',
@@ -28,13 +271,13 @@ const expose_props_list = [
     'schedule',
 ]
 
-const config_props_list = [
+const config_props_list = (/* unused pure expression or super */ null && ([
     'callback',
     'reverse',
     'duration',
     'delay',
     'ease',
-]
+]))
 
 const support_props = {
     px_props:
@@ -79,7 +322,7 @@ class Act {
             this[key] = argus[key]
         })
         this.callback = argus.callback
-        this.duration = _.isNumber(argus.duration) ? argus.duration : 1000
+        this.duration = lodash.isNumber(argus.duration) ? argus.duration : 1000
         this.ease = argus.ease || 'easeOutExpo'
         this.delay = argus.delay || 0
         this.loop = argus.loop
@@ -120,7 +363,7 @@ class Act {
                         return
                     }
                     const css_value = getNumberFromCssValue(this[key], unit)
-                    if (!_.isNumber(css_value)) {
+                    if (!lodash.isNumber(css_value)) {
                         return r_warn(`Unrecognized Style Value "${ this[key] }"`)
                     }
                     this[key] = `[${ origin_value }~${ css_value }]${ unit }`
@@ -131,8 +374,8 @@ class Act {
 
     get plan_duration() {
         let res = 0
-        if (_.isNumber(this.delay)) res += this.delay
-        if (_.isNumber(this.duration)) res += this.duration
+        if (lodash.isNumber(this.delay)) res += this.delay
+        if (lodash.isNumber(this.duration)) res += this.duration
         return res
     }
 
@@ -179,12 +422,12 @@ class Actor {
         const ratio = this.inter_func(Math.min((frame_index * 16 / config.duration), 1.0))
         Object.keys(config).forEach(key => {
             const extract_number_reg = /\[(-|\d|\.)+?~(-|\d||\.)+?\]/g
-            if (!_.isString(config[key])) return
+            if (!lodash.isString(config[key])) return
             const extract_res = config[key].match(extract_number_reg)
-            if (!_.isArray(extract_res) || !extract_res.length) return
+            if (!lodash.isArray(extract_res) || !extract_res.length) return
             let groove = config[key].replace(extract_number_reg, '{}')
             const slots = extract_res.map(range => {
-                let [start_value, end_value] = range.replace('[', '').replace(']', '').split('~').map(o => _.toNumber(o))
+                let [start_value, end_value] = range.replace('[', '').replace(']', '').split('~').map(o => lodash.toNumber(o))
                 if (config.reverse) {
                     [start_value, end_value] = [end_value, start_value]
                 }
@@ -195,7 +438,7 @@ class Actor {
             })
             this.ref.style[key] = groove
         })
-        if (_.isFunction(config.parallel)) {
+        if (lodash.isFunction(config.parallel)) {
             config.parallel(ratio)
         }
         if (frame_index * 16 < config.duration) {
@@ -203,12 +446,12 @@ class Actor {
         } else {
             this.busy = false
             this.busy_with = null
-            if (_.isFunction(config.callback)) {
+            if (lodash.isFunction(config.callback)) {
                 config.callback(this)
             }
             if (config.loop) {
                 if (!config.loop) return
-                if (_.isNumber(config.loop)) {
+                if (lodash.isNumber(config.loop)) {
                     config.loop = config.loop - 1
                 }
                 if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
@@ -301,10 +544,10 @@ class Actor {
 class Director extends Actor {
     constructor() {
         super(
-            uuidv4().replace(/-/g, ""),
+            util_uuidv4().replace(/-/g, ""),
             document.createElement('div')
         );
-        this.id = uuidv4().replace(/-/g, "")
+        this.id = util_uuidv4().replace(/-/g, "")
 
         this.registered_dict = {}
 
@@ -317,15 +560,15 @@ class Director extends Actor {
     register(args) {
         // todo deal the situation that one dom was registered for more than one time
         const wait_register_queue = []
-        if (!_.isArray(args)) {
-            const r_id = uuidv4().replace(/-/g, "")
+        if (!lodash.isArray(args)) {
+            const r_id = util_uuidv4().replace(/-/g, "")
             wait_register_queue.push(r_id)
             this.registered_dict[r_id] = new Actor(r_id, args)
             this.registered_queue.push(this.registered_dict[r_id])
         } else {
-            args = _.compact(args)
+            args = lodash.compact(args)
             args.forEach(item => {
-                const r_id = uuidv4().replace(/-/g, "")
+                const r_id = util_uuidv4().replace(/-/g, "")
                 wait_register_queue.push(r_id)
                 this.registered_dict[r_id] = new Actor(r_id, item)
                 this.registered_queue.push(this.registered_dict[r_id])
@@ -397,11 +640,12 @@ const ceo = new Director()
 const r_register = ceo.register.bind(ceo)
 const r_default = ceo.r_default.bind(ceo)
 
-import act from './src/act.js'
+;
 
 const r = (el) => {
-    return new Actor(uuidv4(), el)
+    return new Actor(util_uuidv4(), el)
 }
+
 
 export {
     Director,
@@ -410,4 +654,3 @@ export {
     act,
     r
 }
-
