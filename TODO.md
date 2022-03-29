@@ -26,3 +26,6 @@
 
 ### 2022/3/29 add
 - [ ] ease function support cubic-bezier
+- [ ] .r_loop() .r_loop(6) .r_loop('6 alternate')
+- [ ] .r_wait()
+- [ ] .r_sleep()
