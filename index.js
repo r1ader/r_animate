@@ -252,21 +252,21 @@ class Actor {
                 this.run()
             }, 16)
         }
-        return this.ref
+        return this
     }
 
     r_then(func) {
         this.schedule.push(new Act({ duration: 0, callback: func }))
-        return this.ref
+        return this
     }
 
     r_busy() {
-        return this.busy
+        return this
     }
 
     r_skip() {
         this.schedule.shift()
-        return this.ref
+        return this
     }
 
     r_schedule() {
@@ -290,7 +290,7 @@ class Actor {
                 this.run()
             }, 16)
         }
-        return this.ref
+        return this
     }
 
     r_default(config) {
@@ -400,6 +400,10 @@ const r_default = ceo.r_default.bind(ceo)
 import act from './src/act.js'
 
 const r = (el) => {
+    if (el.r_id) {
+        r_warn(`"${el.tagName}.${ el.className }" is already registered`)
+        return el
+    }
     return new Actor(uuidv4(), el)
 }
 
