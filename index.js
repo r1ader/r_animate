@@ -26,6 +26,8 @@ const expose_props_list = [
     'busy',
     'busy_with',
     'schedule',
+    'default',
+    'inter_func',
 ]
 
 const config_props_list = [
@@ -150,6 +152,7 @@ class Actor {
         this.schedule = []
         this.inter_func = (a) => a
         this.default = {}
+        this.render_process = null
     }
 
     run() {
@@ -401,10 +404,26 @@ import act from './src/act.js'
 
 const r = (el) => {
     if (el.r_id) {
-        r_warn(`"${el.tagName}.${ el.className }" is already registered`)
+        r_warn(`"${ el.tagName }.${ el.className }" is already registered`)
         return el
     }
-    return new Actor(uuidv4(), el)
+    return new Proxy(new Actor(uuidv4(), el), {
+        get(target, prop) {
+            if (prop in target) {
+                return target[prop]
+            } else {
+                return target['ref'][prop]
+            }
+        },
+        set(target, prop, value) {
+            if (prop in target) {
+                return Reflect.set(target, prop, value)
+            } else {
+                return Reflect.set(target['ref'], prop, value)
+            }
+        }
+    })
+    // return
 }
 
 export {

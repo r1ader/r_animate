@@ -1,8 +1,8 @@
 {
   "name": "r_animate",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "a easy tool to help you make great animation",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "jest"
   },
