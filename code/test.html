@@ -12,13 +12,13 @@
 </body>
 
 <script type="module">
-    import { r_register, act } from "https://unpkg.com/r_animate/index.js";
+    import { r, act } from "https://unpkg.com/r_animate/index.js";
 
     const rect = document.getElementById('rect')
     const rect2 = document.getElementById('rect2')
-    r_register(rect)
-    r_register(rect2)
-    rect.r_animate({
+
+
+    r(rect).r_animate({
         transform: 'scale([1~2])',
         loop: 3,
         loop_mode: 'alternate'
@@ -36,7 +36,7 @@
         loop: 1,
         loop_mode: 'alternate'
     }).r_then(() => {
-        rect2.r_animate({
+        r(rect2).r_animate({
             opacity: '[0~1]',
             transform: 'scale([0~1]) rotateZ([0~1]turn)',
         }).r_animate({
