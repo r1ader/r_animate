@@ -1,5 +1,5 @@
 import _ from "./src/lodash.js";
-import { ease_functions } from "./src/math.js"
+import { parseEasings } from "./src/math.js"
 import act from './src/act.js'
 import {
     getNumberFromCssValue,
@@ -165,7 +165,7 @@ class Actor {
         config.update(this.ref)
         this.busy_with = config
         this.busy = true
-        this.inter_func = ease_functions(config.ease)
+        this.inter_func = parseEasings(config.ease)
         if (config.delay > 0) {
             setTimeout(() => {
                 this.render_process = requestAnimationFrame(() => this.render(0))
