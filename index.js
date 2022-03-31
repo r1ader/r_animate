@@ -1,13 +1,13 @@
 import _ from "./src/lodash.js";
-import { ease_functions } from "./src/math.js"
+import { parseEasings } from "./src/math.js"
+import act from './src/act.js'
 import {
     getNumberFromCssValue,
     isAnimationValid,
     r_warn,
     parseColorProps,
     defineNameForAct,
-    uuidv4,
-    clog
+    generate_id
 } from "./src/util.js";
 
 const expose_func_list = [
@@ -71,7 +71,7 @@ const class_prop = [
     'ease',
     'parallel',
     'loop',
-    'loop_mode',
+    'loop_mode'
 ]
 
 
@@ -129,6 +129,14 @@ class Act {
                 }
             })
         })
+        if (_.isString(this.loop)) {
+            const { loop } = this
+            if (loop.split(' ').length === 2) {
+                const [loop_num, loop_mode] = loop.split(' ')
+                this['loop'] = parseInt(loop_num)
+                this['loop_mode'] = loop_mode
+            }
+        }
     }
 
     get plan_duration() {
@@ -165,14 +173,13 @@ class Actor {
         config.update(this.ref)
         this.busy_with = config
         this.busy = true
-        this.inter_func = ease_functions(config.ease)
+        this.inter_func = parseEasings(config.ease)
         if (config.delay > 0) {
             setTimeout(() => {
                 this.render_process = requestAnimationFrame(() => this.render(0))
             }, config.delay)
         } else {
             this.render_process = requestAnimationFrame(() => this.render(0))
-
         }
     }
 
@@ -204,24 +211,35 @@ class Actor {
         if (frame_index * 16 < config.duration) {
             requestAnimationFrame(() => this.render(frame_index + 1))
         } else {
-            this.busy = false
-            this.busy_with = null
-            if (_.isFunction(config.callback)) {
-                config.callback(this)
+            this.rendered()
+        }
+    }
+
+    rendered() {
+        const config = this.busy_with
+        this.busy = false
+        this.busy_with = null
+        if (_.isFunction(config.callback)) {
+            config.callback(this)
+        }
+        if (_.isArray(config.callback) && config.callback.length) {
+            config.callback.reverse().forEach(o => {
+                this.schedule.unshift(new Act(o))
+            })
+        }
+        if (config.loop) {
+            if (!config.loop) return
+            if (_.isNumber(config.loop)) {
+                config.loop = config.loop - 1
             }
-            if (config.loop) {
-                if (!config.loop) return
-                if (_.isNumber(config.loop)) {
-                    config.loop = config.loop - 1
-                }
-                if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
-                    config.reverse = !config.reverse
-                }
-                this.schedule.unshift(config)
+            if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
+                config.reverse = !config.reverse
             }
-            if (!!this.schedule.length) {
-                this.run()
-            }
+            config.delay = 0
+            this.schedule.unshift(config)
+        }
+        if (!!this.schedule.length) {
+            this.run()
         }
     }
 
@@ -298,16 +316,17 @@ class Actor {
 
     r_default(config) {
         this.default = { ...config }
+        return this
     }
 }
 
 class Director extends Actor {
     constructor() {
         super(
-            uuidv4().replace(/-/g, ""),
+            generate_id(),
             document.createElement('div')
         );
-        this.id = uuidv4().replace(/-/g, "")
+        this.id = generate_id()
 
         this.registered_dict = {}
 
@@ -321,14 +340,14 @@ class Director extends Actor {
         // todo deal the situation that one dom was registered for more than one time
         const wait_register_queue = []
         if (!_.isArray(args)) {
-            const r_id = uuidv4().replace(/-/g, "")
+            const r_id = generate_id()
             wait_register_queue.push(r_id)
             this.registered_dict[r_id] = new Actor(r_id, args)
             this.registered_queue.push(this.registered_dict[r_id])
         } else {
             args = _.compact(args)
             args.forEach(item => {
-                const r_id = uuidv4().replace(/-/g, "")
+                const r_id = generate_id()
                 wait_register_queue.push(r_id)
                 this.registered_dict[r_id] = new Actor(r_id, item)
                 this.registered_queue.push(this.registered_dict[r_id])
@@ -400,14 +419,23 @@ const ceo = new Director()
 const r_register = ceo.register.bind(ceo)
 const r_default = ceo.r_default.bind(ceo)
 
-import act from './src/act.js'
+class ActorGroup extends Actor {
+    constructor() {
+        super();
+    }
+}
 
-const r = (el) => {
+const actors = new Map()
+
+const register_actor = function (el) {
     if (el.r_id) {
         r_warn(`"${ el.tagName }.${ el.className }" is already registered`)
         return el
     }
-    return new Proxy(new Actor(uuidv4(), el), {
+    if (actors.has(el)) {
+        return actors.get(el)
+    }
+    const res = new Proxy(new Actor(generate_id(), el), {
         get(target, prop) {
             if (prop in target) {
                 return target[prop]
@@ -423,7 +451,34 @@ const r = (el) => {
             }
         }
     })
-    // return
+    actors.set(el, res)
+    return res
+}
+
+const r = function () {
+    let actor_list = []
+    for (let el_index in arguments) {
+        actor_list.push(register_actor(arguments[el_index]))
+    }
+    if (actor_list.length === 1) {
+        return actor_list[0]
+    } else {
+        return new Proxy(actor_list, {
+            get: function (target, p) {
+                if (target.every(o => _.isFunction(o[p]))) {
+                    return function () {
+                        const _argus = arguments
+                        target.forEach(function (actor) {
+                            actor[p](..._argus)
+                        })
+                        return this
+                    }
+                } else {
+                    return new Map(target.map(o => [o, o[p]]))
+                }
+            }
+        })
+    }
 }
 
 export {

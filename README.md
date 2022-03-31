@@ -17,9 +17,7 @@ Notice:
 
 `r_animate.js` is in its infancy.
 
-`r_animate.js` is only performance well on `vue` and `browser` that support `import` natively right-now. 
-        
-More supporting are on process now.
+Welcome your suggestion to me with issue or <a href="mailto:r1ader.v1@gmail.com?">email</a>
 
 [npm-downloads-src]: https://img.shields.io/npm/dt/r_animate.svg?style=flat&color=darkgreen
 [npm-downloads-href]: https://www.npmjs.com/package/r_animate
@@ -41,11 +39,21 @@ Mainstream browsers such as chrome and firefox already support import natively
 
 ```html
 <script type="module">
-    import { r_register, act } from "https://unpkg.com/r_animate/index.js";
+    import { r, act } from "https://unpkg.com/r_animate/index.js";
 </script>
 ```
 how to use r_animate.js in native html and javascript ? 👉
 [[code](https://github.com/r1ader/r_animate/blob/main/code/test.html)][[demo](https://r1ader.github.io/r_animate/code/test.html)]
+
+
+
+## Document
+
+### [GET START](https://r1ader.gitbook.io/r_animate/get_start)
+
+### [API DOC](https://r1ader.gitbook.io/r_animate/api_doc)
+
+
 
 ## Example
 
@@ -58,7 +66,7 @@ You can check and run [the completed App.vue](https://stackblitz.com/edit/vue-uf
 or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main/code/example_1.vue) in `Github` 
 
 ```javascript
- circle.r_animate(act.FADE_OUT).r_animate(act.FADE_IN);
+ r(this.$refs.circle).r_animate(act.FADE_OUT).r_animate(act.FADE_IN);
 ```
 
 ---
@@ -76,7 +84,7 @@ or , check [the completed App.vue](https://github.com/r1ader/r_animate/blob/main
 // App.vue
 // ...
 // key code
-this.$refs.circle
+r(this.$refs.circle)
     .r_animate({
         transform: 'scale([1~2])',
         duration: 2000,

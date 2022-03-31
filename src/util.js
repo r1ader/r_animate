@@ -14,6 +14,7 @@ export function r_warn(msg) {
 }
 
 export function isAnimationValid(str) {
+    str = str || ''
     str = str.toString().replace(/(\[(?:-?(?:\d+\.*)*\d+?)?~-?(?:\d+\.*)*\d+?])/g, '0')
     let check_reg = /^-?(?:\d+\.*)*\d+?(?:px|deg|%|turn)?$/g
     if (check_reg.test(str)) return true
@@ -41,7 +42,7 @@ export function defineNameForAct(config) {
         .join('\n')
 }
 
-export function uuidv4() {
+export function generate_id() {
     return Math.floor(Math.random() * 100000000).toString()
 }
 
