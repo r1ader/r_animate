@@ -24,6 +24,7 @@ const act = {
         OPACITY: { opacity: '[1~0]' },
         BLUR: {
             filter: 'blur([0~30]px)',
+            opacity: '[1~1]',
             ease: 'linear',
             callback: [{
                 opacity: '[1~0]',

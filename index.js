@@ -223,9 +223,8 @@ class Actor {
             config.callback(this)
         }
         if (_.isArray(config.callback) && config.callback.length) {
-            config.callback.reverse().forEach(o => {
-                this.schedule.unshift(new Act(o))
-            })
+
+            this.schedule=this.schedule.concat(config.callback.map(o => new Act(o)))
         }
         if (config.loop) {
             if (!config.loop) return
@@ -260,6 +259,7 @@ class Actor {
         this.busy = false
         this.busy_with = null
         this.schedule = []
+        return this
     }
 
     clean_remain_process() {
