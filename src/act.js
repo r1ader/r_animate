@@ -142,4 +142,12 @@ const act = {
 
 }
 
+const add_name = (obj, name) => {
+    obj.name = name
+    Object.keys(obj).forEach(key => {
+        if (typeof obj[key] !== 'object') return
+        add_name(obj[key], name + '.' + key)
+    })
+}
+add_name(act, 'act')
 export default act
