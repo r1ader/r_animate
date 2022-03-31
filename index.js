@@ -1,13 +1,13 @@
 import _ from "./src/lodash.js";
 import { ease_functions } from "./src/math.js"
+import act from './src/act.js'
 import {
     getNumberFromCssValue,
     isAnimationValid,
     r_warn,
     parseColorProps,
     defineNameForAct,
-    uuidv4,
-    clog
+    generate_id
 } from "./src/util.js";
 
 const expose_func_list = [
@@ -298,16 +298,17 @@ class Actor {
 
     r_default(config) {
         this.default = { ...config }
+        return this
     }
 }
 
 class Director extends Actor {
     constructor() {
         super(
-            uuidv4().replace(/-/g, ""),
+            generate_id(),
             document.createElement('div')
         );
-        this.id = uuidv4().replace(/-/g, "")
+        this.id = generate_id()
 
         this.registered_dict = {}
 
@@ -321,14 +322,14 @@ class Director extends Actor {
         // todo deal the situation that one dom was registered for more than one time
         const wait_register_queue = []
         if (!_.isArray(args)) {
-            const r_id = uuidv4().replace(/-/g, "")
+            const r_id = generate_id()
             wait_register_queue.push(r_id)
             this.registered_dict[r_id] = new Actor(r_id, args)
             this.registered_queue.push(this.registered_dict[r_id])
         } else {
             args = _.compact(args)
             args.forEach(item => {
-                const r_id = uuidv4().replace(/-/g, "")
+                const r_id = generate_id()
                 wait_register_queue.push(r_id)
                 this.registered_dict[r_id] = new Actor(r_id, item)
                 this.registered_queue.push(this.registered_dict[r_id])
@@ -400,14 +401,23 @@ const ceo = new Director()
 const r_register = ceo.register.bind(ceo)
 const r_default = ceo.r_default.bind(ceo)
 
-import act from './src/act.js'
+class ActorGroup extends Actor {
+    constructor() {
+        super();
+    }
+}
 
-const r = (el) => {
+const actors = new Map()
+
+const register_actor = function (el) {
     if (el.r_id) {
         r_warn(`"${ el.tagName }.${ el.className }" is already registered`)
         return el
     }
-    return new Proxy(new Actor(uuidv4(), el), {
+    if (actors.has(el)) {
+        return actors.get(el)
+    }
+    const res = new Proxy(new Actor(generate_id(), el), {
         get(target, prop) {
             if (prop in target) {
                 return target[prop]
@@ -423,7 +433,34 @@ const r = (el) => {
             }
         }
     })
-    // return
+    actors.set(el, res)
+    return res
+}
+
+const r = function () {
+    let actor_list = []
+    for (let el_index in arguments) {
+        actor_list.push(register_actor(arguments[el_index]))
+    }
+    if (actor_list.length === 1) {
+        return actor_list[0]
+    } else {
+        return new Proxy(actor_list, {
+            get: function (target, p) {
+                if (target.every(o => _.isFunction(o[p]))) {
+                    return function () {
+                        const _argus = arguments
+                        target.forEach(function (actor) {
+                            actor[p](..._argus)
+                        })
+                        return this
+                    }
+                } else {
+                    return new Map(target.map(o => [o, o[p]]))
+                }
+            }
+        })
+    }
 }
 
 export {

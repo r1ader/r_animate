@@ -41,7 +41,7 @@ export function defineNameForAct(config) {
         .join('\n')
 }
 
-export function uuidv4() {
+export function generate_id() {
     return Math.floor(Math.random() * 100000000).toString()
 }
 
