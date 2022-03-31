@@ -30,3 +30,10 @@
 - [ ] .r_wait()
 - [ ] .r_sleep()
 - [ ] .r (temporal r_register)
+- [ ] 
+
+### 2022/3/31 add
+- [ ] act state: pending , in progress
+- [ ] set_scene ; use this scope
+- [ ] act.sub
+- [ ] actor.style lock
