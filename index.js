@@ -71,7 +71,7 @@ const class_prop = [
     'ease',
     'parallel',
     'loop',
-    'loop_mode',
+    'loop_mode'
 ]
 
 
@@ -129,6 +129,14 @@ class Act {
                 }
             })
         })
+        if (_.isString(this.loop)) {
+            const { loop } = this
+            if (loop.split(' ').length === 2) {
+                const [loop_num, loop_mode] = loop.split(' ')
+                this['loop'] = parseInt(loop_num)
+                this['loop_mode'] = loop_mode
+            }
+        }
     }
 
     get plan_duration() {
@@ -172,7 +180,6 @@ class Actor {
             }, config.delay)
         } else {
             this.render_process = requestAnimationFrame(() => this.render(0))
-
         }
     }
 
@@ -204,24 +211,35 @@ class Actor {
         if (frame_index * 16 < config.duration) {
             requestAnimationFrame(() => this.render(frame_index + 1))
         } else {
-            this.busy = false
-            this.busy_with = null
-            if (_.isFunction(config.callback)) {
-                config.callback(this)
+            this.rendered()
+        }
+    }
+
+    rendered() {
+        const config = this.busy_with
+        this.busy = false
+        this.busy_with = null
+        if (_.isFunction(config.callback)) {
+            config.callback(this)
+        }
+        if (_.isArray(config.callback) && config.callback.length) {
+            config.callback.reverse().forEach(o => {
+                this.schedule.unshift(new Act(o))
+            })
+        }
+        if (config.loop) {
+            if (!config.loop) return
+            if (_.isNumber(config.loop)) {
+                config.loop = config.loop - 1
             }
-            if (config.loop) {
-                if (!config.loop) return
-                if (_.isNumber(config.loop)) {
-                    config.loop = config.loop - 1
-                }
-                if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
-                    config.reverse = !config.reverse
-                }
-                this.schedule.unshift(config)
+            if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
+                config.reverse = !config.reverse
             }
-            if (!!this.schedule.length) {
-                this.run()
-            }
+            config.delay = 0
+            this.schedule.unshift(config)
+        }
+        if (!!this.schedule.length) {
+            this.run()
         }
     }
 
