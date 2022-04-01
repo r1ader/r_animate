@@ -178,7 +178,7 @@ class Actor {
         if (this.busy) return false
         const config = this.schedule.shift()
         if (!config) return false
-        if (config.target === 'wrap') this.createWrap()
+        if (config.target === 'wrap' && this.ref === this.orignal_ref) this.createWrap()
         if (config.target === 'copy') this.createCopy()
         config.update(this.ref)
         this.busy_with = config
@@ -223,7 +223,7 @@ class Actor {
         const config = this.busy_with
         if (config.callback) this.createCallback()
         if (config.loop) this.createLoop()
-        if (config.wrap) this.cleanWrap()
+        if (config.target === 'wrap' && !config.loop) this.cleanWrap()
         if (config.copy) this.cleanCopy()
         this.busy = false
         this.busy_with = null
@@ -236,12 +236,12 @@ class Actor {
             config.callback(this)
         }
         if (_.isArray(config.callback) && config.callback.length) {
-            this.schedule = this.schedule.concat(config.callback.map(o => new Act(o)))
+            this.schedule = config.callback.map(o => new Act(o)).concat(this.schedule)
         }
     }
 
     createLoop() {
-        const config = this.busy_with
+        const config = new Act({ ...this.busy_with })
         if (_.isNumber(config.loop)) {
             config.loop = config.loop - 1
         }

@@ -46,7 +46,7 @@ const act = {
 
     },
     IN: {
-        OPACITY: { opacity: '[0~1]' },
+        OPACITY: { opacity: '[0~1]', ease: 'linear' },
         BLUR: {
             opacity: '[1~0]',
             filter: 'blur([30~30]px)',
@@ -135,7 +135,6 @@ const act = {
                 },
             ]
         },
-        ...get_various_rotate(),
         RADAR: {
             padding: '[0~30]px',
             opacity: '[1~0]',
@@ -150,6 +149,26 @@ const act = {
             duration: 2000,
             target: 'copy'
         },
+        LARGER: {
+            transform: 'scale([1~1.2])',
+            loop: '1 alternate',
+            target: 'wrap',
+        },
+        SMALLER: {
+            transform: 'scale([1~0.8])',
+            loop: '1 alternate',
+            target: 'wrap',
+        }
+    },
+    NORMAL: {
+
+        ...get_various_rotate(),
+        LARGER: {
+            transform: 'scale([1~1.2])',
+        },
+        SMALLER: {
+            transform: 'scale([1~0.8])',
+        }
     },
     PHYSICS: {},
     EFFECTS: {},
