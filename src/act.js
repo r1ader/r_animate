@@ -6,15 +6,16 @@ function get_rotate(r, reg, axis) {
 }
 
 function get_various_rotate() {
-    const rs = [30, 45, 60, 90, 180, 360]
+    let rs = [30, 45, 60, 90, 180, 360]
     const res = {}
     rs.map(r => {
         res[`ROTATE_${ r }`] = get_rotate(true, r)
         res[`ROTATE_${ r }_REVERSE`] = get_rotate(false, r)
+    })
+    rs = [90, 180]
+    rs.map(r => {
         res[`ROTATE_X_${ r }`] = get_rotate(true, r, 'X')
-        res[`ROTATE_X_${ r }_REVERSE`] = get_rotate(false, r, 'X')
         res[`ROTATE_Y_${ r }`] = get_rotate(true, r, 'Y')
-        res[`ROTATE_Y_${ r }_REVERSE`] = get_rotate(false, r, 'Y')
     })
     return res
 }
@@ -158,17 +159,26 @@ const act = {
             transform: 'scale([1~0.8])',
             loop: '1 alternate',
             target: 'wrap',
+        },
+        BORDER_STROKE: {
+            backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' rx='10' ry='10' fill='none' stroke='white' stroke-width='4' stroke-dasharray='1000%2c 1000' stroke-dashoffset='[-1000~0]' /%3e%3c/svg%3e")`,
+            duration: 2000,
+            ease: 'easeInOutExpo',
+            callback: [{
+                backgroundImage: `url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' rx='10' ry='10' fill='none' stroke='rgba(255,255,255,[1~0])' stroke-width='4' stroke-dasharray='1000%2c 1000' stroke-dashoffset='0' /%3e%3c/svg%3e")`,
+                ease: 'linear',
+                duration: 500
+            }]
         }
     },
     NORMAL: {
-
-        ...get_various_rotate(),
         LARGER: {
             transform: 'scale([1~1.2])',
         },
         SMALLER: {
             transform: 'scale([1~0.8])',
-        }
+        },
+        ...get_various_rotate(),
     },
     PHYSICS: {},
     EFFECTS: {},
