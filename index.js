@@ -27,7 +27,7 @@ const expose_props_list = [
     'busy_with',
     'schedule',
     'default',
-    'inter_func',
+    'ease_func',
 ]
 
 const config_props_list = [
@@ -71,9 +71,9 @@ const class_prop = [
     'ease',
     'parallel',
     'loop',
-    'loop_mode'
+    'loop_mode',
+    'target'
 ]
-
 
 class Act {
     constructor(argus) {
@@ -89,6 +89,7 @@ class Act {
         this.name = argus.name
         this.parallel = argus.parallel
         this.reverse = argus.reverse || false
+        this.target = argus.target || 'self'
     }
 
     // todo support the single item of transform
@@ -106,10 +107,7 @@ class Act {
                 if (support_props[prop_type].indexOf(key) > -1) {
                     if (!ref) return
                     const computed_style = getComputedStyle(ref)
-                    if (prop_type === 'color_props') {
-                        this[key] = parseColorProps(computed_style[key], this[key])
-                        return
-                    }
+                    // todo check -> if (prop_type === 'color_props') {parseColorProps}
                     const unit = {
                         px_props: 'px',
                         number_props: '',
@@ -155,25 +153,18 @@ class Actor {
     constructor(r_id, el) {
         this.r_id = r_id
         this.ref = el
+        this.orignal_ref = el
         this.busy = false
         this.busy_with = null
         this.schedule = []
-        this.inter_func = (a) => a
+        this.ease_func = (a) => a
         this.default = {}
         this.render_process = null
     }
 
     run() {
-        if (this.busy) return
-        if (this.schedule.length === 0) {
-            console.warn(this.ref.toString() + '’s schedule is empty')
-        }
-        const config = this.schedule.shift()
-        if (!config) return
-        config.update(this.ref)
-        this.busy_with = config
-        this.busy = true
-        this.inter_func = parseEasings(config.ease)
+        if (!this.beforeRender()) return
+        const config = this.busy_with
         if (config.delay > 0) {
             setTimeout(() => {
                 this.render_process = requestAnimationFrame(() => this.render(0))
@@ -183,10 +174,23 @@ class Actor {
         }
     }
 
+    beforeRender() {
+        if (this.busy) return false
+        const config = this.schedule.shift()
+        if (!config) return false
+        if (config.target === 'wrap' && this.ref === this.orignal_ref) this.createWrap()
+        if (config.target === 'copy') this.createCopy()
+        config.update(this.ref)
+        this.busy_with = config
+        this.busy = true
+        this.ease_func = parseEasings(config.ease)
+        return true
+    }
+
     render(frame_index) {
         const config = this.busy_with
         if (!config) return
-        const ratio = this.inter_func(Math.min((frame_index * 16 / config.duration), 1.0))
+        const ratio = this.ease_func(Math.min((frame_index * 16 / config.duration), 1.0))
         Object.keys(config).forEach(key => {
             const extract_number_reg = /\[(-|\d|\.)+?~(-|\d||\.)+?\]/g
             if (!_.isString(config[key])) return
@@ -217,30 +221,66 @@ class Actor {
 
     rendered() {
         const config = this.busy_with
+        if (config.callback) this.createCallback()
+        if (config.loop) this.createLoop()
+        if (config.target === 'wrap' && !config.loop) this.cleanWrap()
+        if (config.copy) this.cleanCopy()
         this.busy = false
         this.busy_with = null
+        if (!!this.schedule.length) this.run()
+    }
+
+    createCallback() {
+        const config = this.busy_with
         if (_.isFunction(config.callback)) {
             config.callback(this)
         }
         if (_.isArray(config.callback) && config.callback.length) {
-            config.callback.reverse().forEach(o => {
-                this.schedule.unshift(new Act(o))
-            })
+            this.schedule = config.callback.map(o => new Act(o)).concat(this.schedule)
         }
-        if (config.loop) {
-            if (!config.loop) return
-            if (_.isNumber(config.loop)) {
-                config.loop = config.loop - 1
-            }
-            if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
-                config.reverse = !config.reverse
-            }
-            config.delay = 0
-            this.schedule.unshift(config)
+    }
+
+    createLoop() {
+        const config = new Act({ ...this.busy_with })
+        if (_.isNumber(config.loop)) {
+            config.loop = config.loop - 1
         }
-        if (!!this.schedule.length) {
-            this.run()
+        if (config.loop === 'alternate' || config.loop_mode === 'alternate') {
+            config.reverse = !config.reverse
         }
+        config.delay = 0
+        this.schedule.unshift(config)
+    }
+
+    createWrap() {
+        const parent = this.ref.parentElement
+        parent.removeChild(this.ref)
+        const container = document.createElement('div')
+        container.appendChild(this.ref)
+        parent.appendChild(container)
+        this.ref = container
+    }
+
+    createCopy() {
+        const parent = this.ref.parentElement
+        const copy = this.ref.cloneNode(true)
+        copy.style.position = 'absolute'
+        parent.appendChild(copy)
+        this.ref = copy
+    }
+
+    cleanWrap() {
+        const parent = this.ref.parentElement
+        parent.removeChild(this.ref)
+        parent.appendChild(this.orignal_ref)
+        this.ref = this.orignal_ref
+    }
+
+    cleanCopy() {
+        const parent = this.ref.parentElement
+        parent.removeChild(this.ref)
+        parent.appendChild(this.orignal_ref)
+        this.ref = this.orignal_ref
     }
 
     r_stop() {
@@ -260,6 +300,7 @@ class Actor {
         this.busy = false
         this.busy_with = null
         this.schedule = []
+        return this
     }
 
     clean_remain_process() {

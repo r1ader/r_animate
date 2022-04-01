@@ -1,4 +1,4 @@
-import { r_warn } from "./util";
+import { r_warn } from "./util.js";
 
 const bezier = (() => {
 

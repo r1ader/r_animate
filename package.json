@@ -1,6 +1,6 @@
 {
   "name": "r_animate",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "a easy tool to help you make great animation",
   "main": "index.js",
   "scripts": {
