@@ -136,15 +136,20 @@ const act = {
             ]
         },
         ...get_various_rotate(),
-        BORDER_SWELL: {
-            border: '[0~1]px solid',
+        RADAR: {
             padding: '[0~30]px',
-            wrap: true,
-            callback: [
-                { transform: 'scale([1~0.5])' }
-            ]
-            // boxSizing: content-
-        }
+            opacity: '[1~0]',
+            duration: 2000,
+            target: 'copy'
+        },
+        BORDER_RADAR: {
+            border: '[2~2]px solid',
+            backgroundColor: 'rgba(0,255,255,[0~0])',
+            padding: '[0~30]px',
+            opacity: '[1~0]',
+            duration: 2000,
+            target: 'copy'
+        },
     },
     PHYSICS: {},
     EFFECTS: {},

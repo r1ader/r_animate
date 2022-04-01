@@ -72,7 +72,7 @@ const class_prop = [
     'parallel',
     'loop',
     'loop_mode',
-    'wrap'
+    'target'
 ]
 
 class Act {
@@ -89,7 +89,7 @@ class Act {
         this.name = argus.name
         this.parallel = argus.parallel
         this.reverse = argus.reverse || false
-        this.wrap = argus.wrap || false
+        this.target = argus.target || 'self'
     }
 
     // todo support the single item of transform
@@ -107,10 +107,7 @@ class Act {
                 if (support_props[prop_type].indexOf(key) > -1) {
                     if (!ref) return
                     const computed_style = getComputedStyle(ref)
-                    if (prop_type === 'color_props') {
-                        this[key] = parseColorProps(computed_style[key], this[key])
-                        return
-                    }
+                    // todo check -> if (prop_type === 'color_props') {parseColorProps}
                     const unit = {
                         px_props: 'px',
                         number_props: '',
@@ -181,7 +178,8 @@ class Actor {
         if (this.busy) return false
         const config = this.schedule.shift()
         if (!config) return false
-        if (config.wrap) this.createWrap()
+        if (config.target === 'wrap') this.createWrap()
+        if (config.target === 'copy') this.createCopy()
         config.update(this.ref)
         this.busy_with = config
         this.busy = true
@@ -226,6 +224,7 @@ class Actor {
         if (config.callback) this.createCallback()
         if (config.loop) this.createLoop()
         if (config.wrap) this.cleanWrap()
+        if (config.copy) this.cleanCopy()
         this.busy = false
         this.busy_with = null
         if (!!this.schedule.length) this.run()
@@ -262,7 +261,22 @@ class Actor {
         this.ref = container
     }
 
+    createCopy() {
+        const parent = this.ref.parentElement
+        const copy = this.ref.cloneNode(true)
+        copy.style.position = 'absolute'
+        parent.appendChild(copy)
+        this.ref = copy
+    }
+
     cleanWrap() {
+        const parent = this.ref.parentElement
+        parent.removeChild(this.ref)
+        parent.appendChild(this.orignal_ref)
+        this.ref = this.orignal_ref
+    }
+
+    cleanCopy() {
         const parent = this.ref.parentElement
         parent.removeChild(this.ref)
         parent.appendChild(this.orignal_ref)
