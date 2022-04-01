@@ -136,10 +136,18 @@ const act = {
             ]
         },
         ...get_various_rotate(),
+        BORDER_SWELL: {
+            border: '[0~1]px solid',
+            padding: '[0~30]px',
+            wrap: true,
+            callback: [
+                { transform: 'scale([1~0.5])' }
+            ]
+            // boxSizing: content-
+        }
     },
     PHYSICS: {},
     EFFECTS: {},
-
 }
 
 const add_name = (obj, name) => {
